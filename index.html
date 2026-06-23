@@ -739,11 +739,9 @@ function showResult() {
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
   import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
-  // Cấu hình từ dự án của bạn
   const firebaseConfig = {
     apiKey: "AIzaSyCgXX1v_RAgkPeL9OH8q8EhpxnVO0YmZBU",
     authDomain: "python-quiz-db.firebaseapp.com",
-    // Link Database URL rất quan trọng cho Firebase Realtime DB
     databaseURL: "https://python-quiz-db-default-rtdb.firebaseio.com", 
     projectId: "python-quiz-db",
     storageBucket: "python-quiz-db.firebasestorage.app",
@@ -757,6 +755,7 @@ function showResult() {
   const db = getDatabase(app); 
 
   let sessionListener = null;
+  let checkTimeout = null; 
 
   onAuthStateChanged(auth, (user) => {
     const btnLogout = document.getElementById('btn-logout');
@@ -765,19 +764,27 @@ function showResult() {
       document.getElementById('login-screen').style.display = 'none';
       if(btnLogout) btnLogout.style.display = 'flex';
 
-      // Lấy Session ID hiện tại lưu trên máy
-      const localSessionId = localStorage.getItem('quiz_session_id');
-      const sessionRef = ref(db, 'user_sessions/' + user.uid);
-      
-      // Lắng nghe xem Database có bị thiết bị khác ghi đè Session mới không
-      sessionListener = onValue(sessionRef, (snapshot) => {
-        const currentDbSession = snapshot.val();
+      // Chờ 1.5s để hệ thống setup xong xuôi tránh lỗi chạy đua
+      checkTimeout = setTimeout(() => {
+        const localSessionId = localStorage.getItem('quiz_session_id');
+        const sessionRef = ref(db, 'user_sessions/' + user.uid);
         
-        if (currentDbSession && currentDbSession !== localSessionId) {
-          alert("⚠️ Tài khoản của bạn vừa được đăng nhập ở một thiết bị khác. Hệ thống sẽ tự động đăng xuất máy tính này.");
-          window.logoutFirebase(); 
-        }
-      });
+        sessionListener = onValue(sessionRef, (snapshot) => {
+          const currentDbSession = snapshot.val();
+          
+          // NẾU PHÁT HIỆN DB ĐÃ BỊ THAY ĐỔI BỞI MÁY KHÁC HOẶC BỊ ĐẶT MÃ "FORCE_LOGOUT"
+          if (currentDbSession && localSessionId && currentDbSession !== localSessionId) {
+            
+            // Máy cũ phát hiện máy mới -> Thả lệnh "FORCE_LOGOUT" lên DB để kéo máy mới đăng xuất cùng
+            if (currentDbSession !== "FORCE_LOGOUT") {
+               set(sessionRef, "FORCE_LOGOUT");
+            }
+            
+            alert("⚠️ Phát hiện tài khoản đăng nhập trên thiết bị khác! Hệ thống sẽ khóa và đăng xuất trên TẤT CẢ các máy để bảo vệ tài khoản!");
+            window.logoutFirebase(); 
+          }
+        });
+      }, 1500);
 
     } else {
       document.getElementById('login-screen').style.display = 'flex';
@@ -786,6 +793,9 @@ function showResult() {
       if (sessionListener) {
         sessionListener(); 
         sessionListener = null;
+      }
+      if (checkTimeout) {
+        clearTimeout(checkTimeout);
       }
     }
   });
@@ -805,7 +815,6 @@ function showResult() {
       .then((userCredential) => {
         errBox.style.display = 'none';
         
-        // Tạo Session ID độc nhất cho phiên làm việc này
         const newSessionId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
         localStorage.setItem('quiz_session_id', newSessionId);
         set(ref(db, 'user_sessions/' + userCredential.user.uid), newSessionId);
