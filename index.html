@@ -8,116 +8,140 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg: #0f1117; --surface: #1a1d27; --surface2: #22263a;
-  --border: #2e3250; --accent: #7c6af7; --accent2: #56cfb2;
-  --text: #e2e5f1; --muted: #7b82a8;
+  --bg: #0f1117; 
+  --surface: rgba(26, 29, 39, 0.75); /* Đổi sang kính mờ */
+  --surface2: rgba(34, 38, 58, 0.85); 
+  --border: rgba(255, 255, 255, 0.08); 
+  --accent: #7c6af7; --accent2: #56cfb2;
+  --text: #e2e5f1; --muted: #a3abc9;
   --green: #34d399; --red: #f87171;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+body { 
+  font-family: 'Inter', sans-serif; 
+  /* Thêm background cây cối mờ ảo tông tối đẳng cấp */
+  background: linear-gradient(rgba(15, 17, 23, 0.88), rgba(15, 17, 23, 0.96)), url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text); 
+  min-height: 100vh; 
+  overflow-x: hidden; 
+}
 
-/* Menu chọn đề */
+/* Menu chọn đề (Nâng cấp Glassmorphism) */
 #start-menu {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(15, 17, 23, 0.98); z-index: 1000;
+  background: rgba(15, 17, 23, 0.6); z-index: 1000;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
 .menu-box {
-  background: var(--surface); border: 1px solid var(--border); padding: 32px 24px;
-  border-radius: 16px; text-align: center; max-width: 450px; width: 90%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  background: rgba(26, 29, 39, 0.65); border: 1px solid var(--border); padding: 36px 28px;
+  border-radius: 20px; text-align: center; max-width: 450px; width: 90%;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
 }
 .menu-box h2 {
-  font-size: 1.5rem; margin-bottom: 8px;
+  font-size: 1.6rem; margin-bottom: 8px; font-weight: 800;
   background: linear-gradient(90deg, var(--accent), var(--accent2));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
-.menu-box p { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+.menu-box p { color: var(--muted); font-size: 0.95rem; margin-bottom: 24px; }
 .menu-btn {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   width: 100%; padding: 14px; margin-bottom: 12px;
   background: var(--surface2); border: 1px solid var(--border); color: var(--text);
-  border-radius: 10px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all .2s;
+  border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all .3s ease;
 }
-.menu-btn:hover { border-color: var(--accent); background: rgba(124,106,247,0.1); transform: translateY(-2px); }
+.menu-btn:hover { border-color: var(--accent); background: rgba(124,106,247,0.15); transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
 .menu-btn.highlight { background: linear-gradient(90deg, var(--accent), var(--accent2)); color: #0f1117; border: none; }
-.menu-btn.highlight:hover { opacity: 0.9; box-shadow: 0 4px 15px rgba(86, 207, 178, 0.3); }
+.menu-btn.highlight:hover { opacity: 0.95; box-shadow: 0 6px 20px rgba(86, 207, 178, 0.4); transform: translateY(-3px); }
 
 /* Header & Progress */
 .header {
-  background: rgba(26,29,39,0.95); border-bottom: 1px solid var(--border);
+  background: rgba(26,29,39,0.7); border-bottom: 1px solid var(--border);
   padding: 14px 20px; position: sticky; top: 0; z-index: 100;
-  backdrop-filter: blur(12px); display: none;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); display: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 .header-inner {
   max-width: 880px; margin: 0 auto;
   display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
 }
 
-/* Nút Thoát */
+/* Nút Thoát & Các Nút Phụ */
 .btn-exit {
   background: var(--surface2); border: 1px solid var(--border); color: var(--text);
-  border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; font-weight: 600;
+  border-radius: 8px; padding: 8px 14px; font-size: 0.85rem; font-weight: 600;
   cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 6px;
 }
-.btn-exit:hover { background: var(--red); border-color: var(--red); color: #fff; }
+.btn-exit:hover { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 4px 10px rgba(248,113,113,0.3); }
 
-.header h1 { font-size: 1rem; font-weight: 700; white-space: nowrap; color: var(--text); margin-right: auto; }
+.header h1 { font-size: 1.1rem; font-weight: 700; white-space: nowrap; color: var(--text); margin-right: auto; }
+.timer-badge { font-size: 0.9rem; font-weight: 600; color: var(--accent2); background: rgba(86, 207, 178, 0.1); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(86, 207, 178, 0.2); }
 .progress-wrap { flex: 1; min-width: 160px; }
-.progress-meta { font-size: 0.7rem; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 5px; }
-.progress-bar { height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; transition: width .4s ease; width: 0%; }
-.score-badge { font-size: 0.75rem; font-weight: 600; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 5px 12px; white-space: nowrap; }
+.progress-meta { font-size: 0.75rem; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 6px; font-weight: 500; }
+.progress-bar { height: 6px; background: rgba(0,0,0,0.3); border-radius: 99px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; transition: width .4s ease; width: 0%; box-shadow: 0 0 10px rgba(86, 207, 178, 0.5); }
+.score-badge { font-size: 0.8rem; font-weight: 600; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; white-space: nowrap; }
 .score-c { color: var(--green); }
 .score-w { color: var(--red); }
 
 /* Quiz Main Layout */
 .main { max-width: 880px; margin: 0 auto; padding: 24px 16px 64px; display: none; }
-.q-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; transition: border-color .3s; }
-.q-card.answered-correct { border-color: rgba(52,211,153,.5); }
-.q-card.answered-wrong   { border-color: rgba(248,113,113,.5); }
+.q-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 24px; overflow: hidden; transition: border-color .3s; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.q-card.answered-correct { border-color: rgba(52,211,153,.6); box-shadow: 0 8px 24px rgba(52,211,153,0.15); }
+.q-card.answered-wrong   { border-color: rgba(248,113,113,.6); box-shadow: 0 8px 24px rgba(248,113,113,0.15); }
 
-.q-head { display: flex; align-items: flex-start; gap: 12px; padding: 16px 18px 12px; }
-.q-num { font-size: 0.7rem; font-weight: 700; letter-spacing: .05em; color: var(--text); background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
-.q-num span.original-id { color: var(--muted); font-weight: 500; font-size: 0.85em; margin-left: 4px; }
-.q-text { font-size: 0.95rem; font-weight: 500; line-height: 1.55; flex: 1; }
-.q-text u { text-decoration: underline; }
-.q-status { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; opacity: 0; transition: opacity .3s; }
+.q-head { display: flex; align-items: flex-start; gap: 12px; padding: 20px 20px 14px; }
+.q-num { font-size: 0.75rem; font-weight: 700; letter-spacing: .05em; color: var(--text); background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.q-num span.original-id { color: var(--muted); font-weight: 500; font-size: 0.85em; margin-left: 6px; }
+.q-text { font-size: 1rem; font-weight: 500; line-height: 1.6; flex: 1; }
+.q-text u { text-decoration: underline; text-underline-offset: 3px; }
+.q-status { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; opacity: 0; transition: opacity .3s; }
 .q-status.show { opacity: 1; }
-.q-status.correct-icon { background: var(--green); color: #0f1117; }
-.q-status.wrong-icon   { background: var(--red); color: #fff; }
+.q-status.correct-icon { background: var(--green); color: #0f1117; box-shadow: 0 0 10px rgba(52,211,153,0.5); }
+.q-status.wrong-icon   { background: var(--red); color: #fff; box-shadow: 0 0 10px rgba(248,113,113,0.5); }
 
 pre.code-block { 
-  font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6; 
-  background: #13151f; border-left: 4px solid #4a5568; 
-  padding: 16px 20px; margin: 0 18px 16px 18px; border-radius: 0 6px 6px 0; overflow-x: auto; color: #abb2bf; 
+  font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; line-height: 1.6; 
+  background: rgba(0,0,0,0.4); border-left: 4px solid #4a5568; 
+  padding: 16px 20px; margin: 0 20px 18px 20px; border-radius: 0 8px 8px 0; overflow-x: auto; color: #abb2bf; 
 }
 kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { color: #d19a66; } str, str * { color: #98c379 !important; } cmt, cmt * { color: #5c6370 !important; font-style: italic !important; } 
 
-.options { padding: 0 18px 6px; display: grid; gap: 8px; }
-.opt { display: flex; align-items: center; gap: 11px; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 14px; cursor: pointer; transition: all .15s; font-size: 0.9rem; user-select: none; }
-.opt:hover:not(.disabled) { border-color: var(--accent); background: #252847; }
-.opt-key { width: 26px; height: 26px; border-radius: 6px; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: var(--muted); flex-shrink: 0; transition: all .15s; }
-.opt-text { flex: 1; line-height: 1.4; }
-.opt.correct { background: rgba(52,211,153,.1); border-color: var(--green); }
+.options { padding: 0 20px 10px; display: grid; gap: 10px; }
+.opt { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.2); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 16px; cursor: pointer; transition: all .2s; font-size: 0.95rem; user-select: none; }
+.opt:hover:not(.disabled) { border-color: var(--accent); background: rgba(124,106,247,0.15); transform: translateX(4px); }
+.opt-key { width: 28px; height: 28px; border-radius: 6px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: var(--muted); flex-shrink: 0; transition: all .2s; }
+.opt-text { flex: 1; line-height: 1.5; }
+.opt.correct { background: rgba(52,211,153,.15); border-color: var(--green); }
 .opt.correct .opt-key { background: var(--green); color: #0f1117; }
-.opt.wrong   { background: rgba(248,113,113,.1); border-color: var(--red); }
+.opt.wrong   { background: rgba(248,113,113,.15); border-color: var(--red); }
 .opt.wrong   .opt-key { background: var(--red); color: #fff; }
 .opt.disabled { cursor: default; }
 
-.explanation { display: none; margin: 12px 18px 16px; padding: 12px 16px; background: rgba(124,106,247,.08); border-left: 3px solid var(--accent); border-radius: 0 7px 7px 0; font-size: 0.88rem; line-height: 1.65; color: #c4c9e8; }
-.explanation .exp-label { font-size: 0.7rem; font-weight: 700; letter-spacing: .07em; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
-.explanation.show { display: block; }
+.explanation { display: none; margin: 14px 20px 20px; padding: 14px 18px; background: rgba(124,106,247,.1); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; font-size: 0.9rem; line-height: 1.7; color: #d6dbf4; }
+.explanation .exp-label { font-size: 0.75rem; font-weight: 700; letter-spacing: .08em; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.explanation.show { display: block; animation: fadeIn 0.4s ease; }
 
-#result-banner { display: none; background: var(--surface); border: 1px solid var(--accent); border-radius: 14px; padding: 36px; text-align: center; margin-top: 24px; }
-.grade-ring { width: 96px; height: 96px; border-radius: 50%; margin: 0 auto 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; }
-.grade-ring small { font-size: 0.62rem; font-weight: 500; color: var(--muted); }
-#result-banner h2 { font-size: 1.5rem; margin-bottom: 8px; }
-#result-banner p  { color: var(--muted); font-size: 0.88rem; }
-.btn-reset { margin-top: 20px; padding: 11px 28px; border-radius: 8px; background: linear-gradient(90deg, var(--accent), #6554e8); color: #fff; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; transition: opacity .2s; }
-.btn-reset:hover { opacity: .85; }
-@media (max-width: 540px) { .progress-wrap { order: 3; min-width: 100%; } .header h1 { order: 2; margin-left: auto; margin-right: 0; } .btn-exit { order: 1; margin-right: 10px; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+#result-banner { display: none; background: rgba(26, 29, 39, 0.8); border: 1px solid var(--accent); border-radius: 16px; padding: 40px; text-align: center; margin-top: 30px; backdrop-filter: blur(12px); box-shadow: 0 10px 40px rgba(124,106,247,0.2); }
+.grade-ring { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; }
+.grade-ring small { font-size: 0.7rem; font-weight: 600; color: var(--muted); }
+#result-banner h2 { font-size: 1.8rem; margin-bottom: 10px; }
+#result-banner p  { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+.btn-reset { margin-top: 24px; padding: 14px 32px; border-radius: 10px; background: linear-gradient(90deg, var(--accent), #6554e8); color: #fff; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: all .3s; box-shadow: 0 6px 20px rgba(124,106,247,0.4); }
+.btn-reset:hover { opacity: .9; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(124,106,247,0.6); }
+
+@media (max-width: 600px) { 
+  .progress-wrap { order: 3; min-width: 100%; margin-top: 10px; } 
+  .header h1 { order: 2; margin-left: auto; margin-right: 0; } 
+  .btn-exit { order: 1; margin-right: 10px; } 
+  .timer-badge { order: 4; margin-top: 10px; margin-left: auto; }
+}
 </style>
 </head>
 <body>
@@ -142,6 +166,12 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
     <button class="menu-btn highlight" onclick="startQuiz(3)">
       <span>🎲</span> Đề Random Tổng Hợp (50 Câu)
     </button>
+
+    <div style="display: flex; justify-content: center; margin-top: 24px;">
+      <button id="btn-logout" class="btn-exit" onclick="logoutFirebase()" style="display: none; padding: 12px 24px; font-size: 0.95rem;">
+        🚪 Đăng Xuất Khỏi Hệ Thống
+      </button>
+    </div>
   </div>
 </div>
 
@@ -151,6 +181,8 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
     
     <h1 id="quiz-title">🐍 Python Quiz</h1>
     
+    <div class="timer-badge" id="quiz-timer">⏱️ 00:00</div>
+
     <div class="progress-wrap">
       <div class="progress-meta">
         <span id="prog-text">0 / 0 đã trả lời</span>
@@ -171,15 +203,14 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
   <div id="quiz-container"></div>
   <div id="result-banner">
     <div class="grade-ring" id="grade-ring"><span id="grade-txt">—</span><small id="grade-total">/ 100</small></div>
-    <h2 id="res-title"></h2><p id="res-sub"></p>
+    <h2 id="res-title"></h2>
+    <p id="res-sub"></p>
+    <p id="res-time" style="margin-top: 10px; color: var(--accent2); font-weight: 600;"></p>
     <button class="btn-reset" onclick="location.reload()">🔄 Chọn Đề Khác</button>
   </div>
 </main>
 
 <script>
-// ==========================================
-// DATA 1: 100 CÂU CƠ BẢN CŨ
-// ==========================================
 // ==========================================
 // DATA 1: 100 CÂU CƠ BẢN (CẬP NHẬT ĐẦY ĐỦ TỪ PDF)
 // ==========================================
@@ -290,7 +321,6 @@ const rawQuizData1 = [
 // DATA 2: 100 CÂU NÂNG CAO (TỪ PDF)
 // ==========================================
 const rawQuizData2 = [
-  // --- PHẦN 1: LIST SLICING, CÚ PHÁP & LOGIC CƠ BẢN ---
   { q: "Output của đoạn code sau? (List Slicing & Mutation)", c: "a = [1, 2, 3, 4, 5]\na[1:4] = [8, 9]\nprint(len(a))", o: ["A. 5", "B. 4", "C. 3", "D. Error"], a: 1, e: "List slicing a[1:4] thay thế 3 phần tử [2, 3, 4] bằng 2 phần tử [8, 9]. Mảng trở thành [1, 8, 9, 5] có độ dài là 4." },
   { q: "Output của đoạn code sau? (Short-circuit Evaluation)", c: "x = 0\ny = 5\ntry:\n  print(x and y / x)\nexcept:\n  print('Error')", o: ["A. 0", "B. 5", "C. ZeroDivisionError", "D. None"], a: 0, e: "Toán tử 'and' tính toán lười (short-circuit). Do x=0 là False nên nó ngắt luôn và trả về 0, vế y/x không được thực thi nên tránh được lỗi chia 0." },
   { q: "Output của đoạn code sau? (Local vs Global Scope)", c: "count = 10\ndef increment():\n  try:\n    count += 1\n    print(count)\n  except Exception as e:\n    print(type(e).__name__)\nincrement()", o: ["A. 10", "B. 11", "C. UnboundLocalError", "D. None"], a: 2, e: "Biến count ở global, nhưng trong hàm có gán count += 1 (tức count = count + 1) khiến Python coi nó là biến local. Do chưa khởi tạo biến local mà đã cộng nên văng lỗi UnboundLocalError." },
@@ -396,7 +426,6 @@ const rawQuizData2 = [
   { q: "Output của đoạn code sau? (Context Manager)", c: "Phương thức ma thuật nào được gọi khi kích hoạt sử dụng câu lệnh `with`?:", o: ["A. __init__", "B. __call__", "C. __enter__ và __exit__", "D. __open__ và __close__"], a: 2, e: "Trụ cột an toàn sinh tử. __enter__ cấp phát tài nguyên khi vào khối with, __exit__ túc trực tự động giải phóng/đóng file khi thoát khối dù gặp lỗi Crash." }
 ];
 
-// Hàm script sinh thêm vòng lặp để bù đắp các câu phụ nếu bạn có lỡ tay xóa một vài dòng ở trên (để đảm bảo file không crash khi build thiếu):
 while(rawQuizData2.length < 100) {
   rawQuizData2.push({
     q: `[Câu Hỏi Phụ Dự Phòng #${rawQuizData2.length + 1}] Output của biểu thức boolean: bool(1) là gì?`,
@@ -534,12 +563,16 @@ const rawQuizData3 = [
   { q: "Kiểm thử \"black-box\" nhấn mạnh điều gì?", c: "", o: ["A. Quan tâm đầu vào đầu ra theo đặc tả, không cần nhìn mã nguồn", "B. Kiểm thử từng nhánh if trong mã", "C. Khám phá luồng dữ liệu chạy trong bộ nhớ", "D. Chỉ kiểm tra các hàm built-in"], a: 0, e: "Hộp đen (Black-box) đóng gói vô hình luồng mã bên trong (Developer không thể thấy), chỉ việc đẩy input dò số và kiểm check output chốt sổ chuẩn spec." },
   { q: "Cho hàm sau (đệ quy trên dữ liệu lồng nhau), chương trình in ra gì?", c: "def count_ints(k):\n  if type(k) == int:\n    return 1\n  if type(k) == list:\n    total = 0\n    for item in k:\n      total = total + count_ints(item)\n    return total\n  return 0\n\nprint(count_ints([[1, 2], 3, [\"a\", [4]]]))", o: ["A. 3", "B. 4", "C. 5", "D. 6"], a: 1, e: "Dùng đệ quy lặn sâu vào các tầng list con, đếm số lượng các phần tử có kiểu dữ liệu là số nguyên (int). Cụ thể là số 1, 2, 3 và 4. Đếm được 4 phần tử." }
 ];
+
 // ==========================================
-// QUIZ ENGINE LOGIC
+// QUIZ ENGINE LOGIC VỚI TÍNH NĂNG MỚI
 // ==========================================
 let quizData = [];
 let answered = 0, correct = 0, wrong = 0;
 let totalQuestions = 0;
+
+// Hệ thống tính giờ
+let startTime, timerInterval;
 
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
@@ -559,6 +592,14 @@ function shuffleArray(array) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
+}
+
+// Bấm giờ làm bài
+function updateTimer() {
+  let elapsed = Math.floor((Date.now() - startTime) / 1000);
+  let m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  let s = String(elapsed % 60).padStart(2, '0');
+  document.getElementById('quiz-timer').textContent = `⏱️ ${m}:${s}`;
 }
 
 function startQuiz(mode) {
@@ -583,7 +624,7 @@ function startQuiz(mode) {
     quizData = clone3;
   }
   else if (mode === 3) {
-    document.getElementById('quiz-title').textContent = "🎲 Quiz: Random 50 Câu";
+    document.getElementById('quiz-title').textContent = "🎲 Quiz: Random Tổng Hợp";
     let combined = clone1.concat(clone2).concat(clone3);
     shuffleArray(combined);
     quizData = combined.slice(0, 50);
@@ -595,6 +636,10 @@ function startQuiz(mode) {
   
   buildQuiz();
   updateProgress();
+
+  // Khởi động đồng hồ
+  startTime = Date.now();
+  timerInterval = setInterval(updateTimer, 1000);
 }
 
 function buildQuiz() {
@@ -663,6 +708,8 @@ function updateProgress() {
 }
 
 function showResult() {
+  clearInterval(timerInterval); // Dừng đồng hồ
+  
   const pct = Math.round(correct / totalQuestions * 100);
   const ring = document.getElementById('grade-ring');
   let color, title, sub;
@@ -675,26 +722,31 @@ function showResult() {
   document.getElementById('grade-txt').textContent = correct;
   document.getElementById('res-title').textContent = title;
   document.getElementById('res-sub').textContent = `Bạn đúng ${correct}/${totalQuestions} câu (${pct}%). ${sub}`;
+  
+  // Hiển thị thời gian hoàn thành
+  const timeTaken = document.getElementById('quiz-timer').textContent.replace('⏱️ ', '');
+  document.getElementById('res-time').textContent = `⏱️ Thời gian hoàn thành: ${timeTaken}`;
 
   const banner = document.getElementById('result-banner');
   banner.style.display = 'block';
   setTimeout(() => banner.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
 }
 </script>
-<div id="login-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 17, 23, 0.98); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-  <div style="background: #1a1d27; padding: 40px; border-radius: 12px; border: 1px solid #2e3250; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-    <h2 style="margin-bottom: 20px; font-size: 1.5rem; background: linear-gradient(90deg, #7c6af7, #56cfb2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🔒 Đăng Nhập Hệ Thống</h2>
-    <p style="color: #7b82a8; font-size: 0.9rem; margin-bottom: 20px;">Vui lòng nhập tài khoản để vào thi.</p>
+
+<div id="login-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 17, 23, 0.8); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+  <div style="background: rgba(26, 29, 39, 0.7); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); text-align: center; max-width: 400px; width: 90%; box-shadow: 0 15px 35px rgba(0,0,0,0.6); backdrop-filter: blur(20px);">
+    <h2 style="margin-bottom: 20px; font-size: 1.6rem; background: linear-gradient(90deg, #7c6af7, #56cfb2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🔒 Đăng Nhập Hệ Thống</h2>
+    <p style="color: #a3abc9; font-size: 0.95rem; margin-bottom: 24px;">Vui lòng nhập tài khoản để vào thi.</p>
     
-    <input type="email" id="email" placeholder="Email đăng nhập" style="display: block; width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #2e3250; background: #22263a; color: white; outline: none; font-family: inherit;">
+    <input type="email" id="email" placeholder="Email đăng nhập" style="display: block; width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; outline: none; font-family: inherit; font-size: 1rem;">
     
-    <div style="position: relative; width: 100%; margin-bottom: 24px;">
-      <input type="password" id="password" placeholder="Mật khẩu" style="display: block; width: 100%; padding: 14px; padding-right: 45px; border-radius: 8px; border: 1px solid #2e3250; background: #22263a; color: white; outline: none; font-family: inherit;">
-      <span id="toggle-pwd" onclick="togglePassword()" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #7b82a8; user-select: none; font-size: 1.2rem;">👁️</span>
+    <div style="position: relative; width: 100%; margin-bottom: 28px;">
+      <input type="password" id="password" placeholder="Mật khẩu" style="display: block; width: 100%; padding: 16px; padding-right: 50px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; outline: none; font-family: inherit; font-size: 1rem;">
+      <span id="toggle-pwd" onclick="togglePassword()" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #a3abc9; user-select: none; font-size: 1.3rem;">👁️</span>
     </div>
     
-    <button onclick="loginWithFirebase()" style="width: 100%; padding: 14px; background: linear-gradient(90deg, #7c6af7, #56cfb2); color: #0f1117; font-weight: 700; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; transition: opacity 0.2s;">Đăng Nhập</button>
-    <p id="login-error" style="color: #f87171; margin-top: 15px; display: none; font-size: 0.9rem;"></p>
+    <button onclick="loginWithFirebase()" style="width: 100%; padding: 16px; background: linear-gradient(90deg, #7c6af7, #56cfb2); color: #0f1117; font-weight: 700; font-size: 1.1rem; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s; box-shadow: 0 6px 20px rgba(86, 207, 178, 0.4);">Đăng Nhập</button>
+    <p id="login-error" style="color: #f87171; margin-top: 18px; display: none; font-size: 0.95rem; font-weight: 500;"></p>
   </div>
 </div>
 
@@ -718,16 +770,17 @@ function showResult() {
 
   // Theo dõi trạng thái: Đã đăng nhập hay chưa?
   onAuthStateChanged(auth, (user) => {
+    const btnLogout = document.getElementById('btn-logout');
     if (user) {
       document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('btn-logout').style.display = 'block';
+      if(btnLogout) btnLogout.style.display = 'flex'; // Hiện nút Đăng Xuất ở Menu
     } else {
       document.getElementById('login-screen').style.display = 'flex';
-      document.getElementById('btn-logout').style.display = 'none';
+      if(btnLogout) btnLogout.style.display = 'none'; // Giấu nút đi khi chưa Login
     }
   });
 
-  // Gắn hàm login ra window để nút HTML có thể gọi
+  // Hàm login
   window.loginWithFirebase = () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -741,32 +794,35 @@ function showResult() {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        errBox.style.display = 'none'; // Thành công thì ẩn lỗi đi
+        errBox.style.display = 'none';
       })
       .catch((error) => {
         errBox.textContent = "Sai tài khoản hoặc mật khẩu!";
         errBox.style.display = 'block';
       });
   };
-  // Hàm bật/tắt hiển thị mật khẩu
+
+  // Ẩn / Hiện password
   window.togglePassword = () => {
     const pwdInput = document.getElementById('password');
     const toggleIcon = document.getElementById('toggle-pwd');
     
     if (pwdInput.type === 'password') {
       pwdInput.type = 'text';
-      toggleIcon.textContent = '🙈'; // Đổi icon thành nhắm mắt
+      toggleIcon.textContent = '🙈';
     } else {
       pwdInput.type = 'password';
-      toggleIcon.textContent = '👁️'; // Đổi icon thành mở mắt
+      toggleIcon.textContent = '👁️';
     }
   };
 
-  // Hàm đăng xuất
+  // Hàm Đăng xuất
   window.logoutFirebase = () => {
-    signOut(auth);
-    // Reload lại trang về menu đầu tiên
-    location.reload(); 
+    signOut(auth).then(() => {
+      location.reload(); 
+    }).catch((error) => {
+      console.log("Lỗi đăng xuất:", error);
+    });
   };
 </script>
 </body>
