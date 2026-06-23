@@ -9,7 +9,7 @@
 
 :root {
   --bg: #0f1117; 
-  --surface: rgba(26, 29, 39, 0.75); /* Đổi sang kính mờ */
+  --surface: rgba(26, 29, 39, 0.75); 
   --surface2: rgba(34, 38, 58, 0.85); 
   --border: rgba(255, 255, 255, 0.08); 
   --accent: #7c6af7; --accent2: #56cfb2;
@@ -19,7 +19,6 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { 
   font-family: 'Inter', sans-serif; 
-  /* Thêm background cây cối mờ ảo tông tối đẳng cấp */
   background: linear-gradient(rgba(15, 17, 23, 0.88), rgba(15, 17, 23, 0.96)), url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
@@ -29,7 +28,6 @@ body {
   overflow-x: hidden; 
 }
 
-/* Menu chọn đề (Nâng cấp Glassmorphism) */
 #start-menu {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(15, 17, 23, 0.6); z-index: 1000;
@@ -58,7 +56,6 @@ body {
 .menu-btn.highlight { background: linear-gradient(90deg, var(--accent), var(--accent2)); color: #0f1117; border: none; }
 .menu-btn.highlight:hover { opacity: 0.95; box-shadow: 0 6px 20px rgba(86, 207, 178, 0.4); transform: translateY(-3px); }
 
-/* Header & Progress */
 .header {
   background: rgba(26,29,39,0.7); border-bottom: 1px solid var(--border);
   padding: 14px 20px; position: sticky; top: 0; z-index: 100;
@@ -70,7 +67,6 @@ body {
   display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
 }
 
-/* Nút Thoát & Các Nút Phụ */
 .btn-exit {
   background: var(--surface2); border: 1px solid var(--border); color: var(--text);
   border-radius: 8px; padding: 8px 14px; font-size: 0.85rem; font-weight: 600;
@@ -88,7 +84,6 @@ body {
 .score-c { color: var(--green); }
 .score-w { color: var(--red); }
 
-/* Quiz Main Layout */
 .main { max-width: 880px; margin: 0 auto; padding: 24px 16px 64px; display: none; }
 .q-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 24px; overflow: hidden; transition: border-color .3s; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
 .q-card.answered-correct { border-color: rgba(52,211,153,.6); box-shadow: 0 8px 24px rgba(52,211,153,0.15); }
@@ -178,11 +173,8 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
 <header class="header" id="main-header">
   <div class="header-inner">
     <button class="btn-exit" onclick="location.reload()">🔙 Thoát</button>
-    
     <h1 id="quiz-title">🐍 Python Quiz</h1>
-    
     <div class="timer-badge" id="quiz-timer">⏱️ 00:00</div>
-
     <div class="progress-wrap">
       <div class="progress-meta">
         <span id="prog-text">0 / 0 đã trả lời</span>
@@ -190,7 +182,6 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
       </div>
       <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
     </div>
-    
     <div class="score-badge">
       <span class="score-c">✓ <span id="cnt-c">0</span></span>
       &nbsp;&nbsp;
@@ -212,7 +203,7 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
 
 <script>
 // ==========================================
-// DATA 1: 100 CÂU CƠ BẢN (CẬP NHẬT ĐẦY ĐỦ TỪ PDF)
+// DATA 1: 100 CÂU CƠ BẢN
 // ==========================================
 const rawQuizData1 = [
   { q: "Output của đoạn code sau? (Trace Code kỹ):", c: "x = 0\nfor i in range(1, 5):\n  for j in range(1, i):\n    if (i + j) % 2 == 0:\n      x += i\n    else:\n      x -= 1\nprint(x)", o: ["A. 2", "B. 4", "C. 3", "D. 5"], a: 2, e: "Dựa vào logic, vòng lặp tính toán x ra lần lượt: -1 -> 2 -> 1 -> 0 -> 4 -> 3. Kết quả là 3." },
@@ -318,7 +309,7 @@ const rawQuizData1 = [
 ];
 
 // ==========================================
-// DATA 2: 100 CÂU NÂNG CAO (TỪ PDF)
+// DATA 2: 100 CÂU NÂNG CAO
 // ==========================================
 const rawQuizData2 = [
   { q: "Output của đoạn code sau? (List Slicing & Mutation)", c: "a = [1, 2, 3, 4, 5]\na[1:4] = [8, 9]\nprint(len(a))", o: ["A. 5", "B. 4", "C. 3", "D. Error"], a: 1, e: "List slicing a[1:4] thay thế 3 phần tử [2, 3, 4] bằng 2 phần tử [8, 9]. Mảng trở thành [1, 8, 9, 5] có độ dài là 4." },
@@ -361,7 +352,6 @@ const rawQuizData2 = [
   { q: "Output của đoạn code sau? (Phạm vi biến trong list Comprehension)", c: "val = 99\narr = [val for val in range(3)]\nprint(val)", o: ["A. 99", "B. 2", "C. 3", "D. NameError"], a: 0, e: "Từ Python 3, biến đếm của List Comprehension bị giam trong scope nội bộ của nó. Nó không bị 'rò rỉ' rác ra ngoài đè lên biến val = 99 ở global." },
   { q: "Output của đoạn code sau? (Xử lý mảng cực lớn với hàm Range)", c: "r = range(10**12)\nprint(len(r))", o: ["A. 1000000000000", "B. MemoryError", "C. 10", "D. 0"], a: 0, e: "Range trong Python là cấu trúc lazy cực thông minh. Nó chỉ lưu thông số đầu/cuối/bước chứ không bung toàn bộ mảng ra RAM, nên gọi len() trả số ngay tức khắc không tràn bộ nhớ." },
   { q: "Output của đoạn code sau? (Kiểu dữ liệu của một Class)", c: "class Student:\n  pass\nprint(type(Student))", o: ["A. <class 'type'>", "B. <class 'object'>", "C. <class '__main__.Student'>", "D. TypeError"], a: 0, e: "Trong Python, mọi thứ đều là object, kể cả class. Class được đúc ra từ một cấu trúc cha (metaclass) cao nhất mang tên là 'type'." },
-  // --- PHẦN 2: LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG - OOP ---
   { q: "Output của đoạn code sau? (Thứ tự phân giải phương thức - MRO)", c: "class A:\n  def ping(self): return 'A'\nclass B(A):\n  def ping(self): return 'B'\nclass C(A):\n  def ping(self): return 'C'\nclass D(B, C): pass\nprint(D().ping())", o: ["A. A", "B. B", "C. C", "D. Lỗi (Error)"], a: 1, e: "Đa kế thừa Python áp dụng thuật toán C3 Linearization. Lớp D kế thừa B và C. Nó ưu tiên tra trái sang phải, tìm thấy hàm ping ở B trước nên dừng và in ra B." },
   { q: "Output của đoạn code sau? (Kế thừa và hàm super)", c: "class Parent:\n  def show(self): return 'P'\nclass Child(Parent):\n  def show(self): return super().show() + 'C'\nprint(Child().show())", o: ["A. P", "B. C", "C. PC", "D. AttributeError"], a: 2, e: "Lệnh super().show() gọi kích hoạt hàm ở lớp cha Parent trả về 'P', cộng nối chuỗi nội bộ thành 'PC'." },
   { q: "Output của đoạn code sau? (Biến của Class so với biến của Instance)", c: "class Dog:\n  legs = 4\nd1 = Dog()\nd2 = Dog()\nd1.legs = 3\nprint(d1.legs, d2.legs, Dog.legs)", o: ["A. 3 3 4", "B. 3 4 4", "C. 4 4 4", "D. 3 3 3"], a: 1, e: "d1.legs=3 tạo một biến cục bộ cho instance d1. Trong khi đó d2 vẫn tham chiếu lên biến class chung. Kết quả 3, 4, 4." },
@@ -382,7 +372,6 @@ const rawQuizData2 = [
   { q: "Output của đoạn code sau? (Khởi tạo Abstract Base Class)", c: "from abc import ABC, abstractmethod\nclass Shape(ABC):\n  @abstractmethod\n  def area(self): pass\ntry:\n  s = Shape()\nexcept TypeError:\n  print('Err')", o: ["A. OK", "B. Err", "C. None", "D. ImportError"], a: 1, e: "Lớp trừu tượng (Abstract Class) đại diện cho khung thiết kế bản vẽ chưa hoàn chỉnh. Khởi tạo trực tiếp thực thể từ bản vẽ gây lỗi TypeError." },
   { q: "Output của đoạn code sau? (Độc lập biến class khi kế thừa)", c: "class Base:\n  val = 1\nclass Sub(Base):\n  pass\nSub.val += 2\nprint(Base.val, Sub.val)", o: ["A. 1 1", "B. 3 3", "C. 1 3", "D. 2 1"], a: 2, e: "Phép thay đổi Sub.val tự động khởi tạo biến mới riêng biệt trên class Sub. Biến gốc Base.val được bảo vệ độc lập là 1, của Sub thành 3." },
   { q: "Output của đoạn code sau? (Kế thừa thiếu super().__init__)", c: "class Parent:\n  def __init__(self):\n    self.x = 10\nclass Child(Parent):\n  def __init__(self):\n    self.y = 20\nc = Child()\ntry:\n  print(c.x)\nexcept AttributeError:\n  print('Err')", o: ["A. 10", "B. 20", "C. Err", "D. None"], a: 2, e: "Ghi đè hàm init ở lớp Child mà không gọi super().__init__ khiến tính trạng x của lớp cha không bao giờ được cấu trúc. Gọi c.x báo AttributeError." },
-  // --- PHẦN 3: CẤU TRÚC DỮ LIỆU & GIẢI THUẬT ---
   { q: "Độ phức tạp thời gian (Time Complexity) của đoạn code sau?: \nn = len(arr)\nfor i in range(n):\n  j = 1\n  while j < n:\n    j *= 2", c: "", o: ["A. O(n log n)", "B. O(n^2)", "C. O(n)", "D. O(log n)"], a: 0, e: "Vòng ngoài chạy tuyến tính N lần. Vòng trong nhân đôi biến j khiến nó đạt ngưỡng n bằng tốc độ hàm logarit cơ số 2. Kết hợp O(n log n)." },
   { q: "Độ phức tạp của hàm đệ quy tính toán dãy số Fibonacci sau đây?: \ndef fib(n):\n  if n <= 1: return n\n  return fib(n-1) + fib(n-2)", c: "", o: ["A. O(n)", "B. O(n^2)", "C. O(2^n)", "D. O(log n)"], a: 2, e: "Đây là thuật toán vét cạn chia cây đệ quy thành 2 nhánh chồng chất gọi liên tục vô hạn cấp. Tốc độ phình to bùng nổ hàm mũ O(2^n)." },
   { q: "Cấu trúc dữ liệu nào giúp kiểm tra sự tồn tại (x in collection) nhanh nhất trong trường hợp trung bình?:", c: "", o: ["A. List", "B. Dictionary / Set", "C. Tuple", "D. Linked List"], a: 1, e: "Cơ chế Hash table nội tại của Dict/Set dùng phép toán băm (hash) truy xuất vị trí cực nhanh. Chỉ mất O(1) để xác nhận phần tử tồn tại." },
@@ -403,7 +392,6 @@ const rawQuizData2 = [
   { q: "Sử dụng Quy hoạch động (Dynamic Programming - Array Memoization) để tính dãy Fibonacci sẽ kéo giảm độ phức tạp thời gian xuống còn bao nhiêu?:", c: "", o: ["A. O(n)", "B. O(2^n)", "C. O(1)", "D. O(n^2)"], a: 0, e: "Phương pháp tạo mảng tĩnh lưu trữ đáp án các nhánh con trùng lặp, triệt tiêu xử lý dư thừa tính lại từ đầu hạ độ phức tạp về tuyến tính O(n)." },
   { q: "Thuật toán trí tuệ nhân tạo K-Means thường được phân loại vào nhóm học máy (Machine Learning) chủ đạo nào?:", c: "", o: ["A. Học có giám sát", "B. Học không giám sát (Unsupervised Learning - Phân cụm)", "C. Học tăng cường", "D. Học sâu Deep Learning"], a: 1, e: "Thuật toán phân tích tọa độ data vô định hướng trên không gian gom về các nhóm bầy đàn chung điểm tương đồng (Clustering) không label giám sát." },
   { q: "Độ phức tạp của một thuật toán có cấu trúc 3 vòng lặp for lồng ghép phụ thuộc lẫn nhau, mỗi vòng quét N lần là?:", c: "", o: ["A. O(n)", "B. O(n^2)", "C. O(n^3)", "D. O(log n)"], a: 2, e: "Số vòng xử lý lõi bùng nổ cấp số nhân theo chiều không gian vòng lặp. Vòng trong N, Vòng giữa N, Vòng ngoài N = N*N*N = N^3 (O(n^3))." },
-  // --- PHẦN 4: HỆ THỐNG, BỘ NHỚ & ADVANCED PYTHON ---
   { q: "Output của đoạn code sau? (Phạm vi biến của Exception)", c: "try:\n  1/0\nexcept ZeroDivisionError as e:\n  pass\n\ntry:\n  print('Caught')\n  print(e)\nexcept NameError:\n  print('Not Defined')", o: ["A. Caught tiếp theo e", "B. Caught tiếp theo Not Defined", "C. Caught None", "D. Lỗi SyntaxError"], a: 1, e: "Trên Python 3, ra khỏi khối except thì biến e lập tức bị Garbage Collector xóa sổ để dọn RAM. Việc gọi print(e) phía dưới kích hoạt NameError." },
   { q: "Output của đoạn code sau? (Thời điểm tính toán tham số mặc định)", c: "import time\ndef test(arg=time.time()):\n  return arg\nval1 = test()\ntime.sleep(0.1)\nval2 = test()\nprint(val1 == val2)", o: ["A. True", "B. False", "C. TypeError", "D. None"], a: 0, e: "Tham số mặc định (time.time()) chỉ được chốt cứng tính toán MỘT LẦN duy nhất lúc đọc biên dịch file (parse time). Gọi hàm muộn cách mấy nó vẫn in con số cũ (True)." },
   { q: "Output của đoạn code sau? (Phạm vi biến trong Class)", c: "x = 1\nclass MyClass:\n  x = 2\n  def get_x(self):\n    return x\nobj = MyClass()\nprint(obj.x, obj.get_x())", o: ["A. 2 2", "B. 2 1", "C. 1 1", "D. 1 2"], a: 1, e: "obj.x truy cập biến class = 2. Trong hàm get_x, chữ x đứng trơ trọi (không kèm self hay cls) Python sẽ vượt rào lục tìm biến toàn cục global x = 1. Kết quả 2 1." },
@@ -434,7 +422,7 @@ while(rawQuizData2.length < 100) {
   });
 }
 // ==========================================
-// DATA 3: BỘ 125 CÂU TƯ DUY TÍNH TOÁN & PYTHON (CHUẨN FORMAT)
+// DATA 3: BỘ 125 CÂU TƯ DUY TÍNH TOÁN
 // ==========================================
 const rawQuizData3 = [
   { q: "Hàm sau trả về giá trị gì?", c: "def q1():\n  return 1, 2", o: ["A. 1", "B. 2", "C. (1, 2)", "D. [1, 2]"], a: 2, e: "Khi dùng lệnh return với nhiều giá trị cách nhau bằng dấu phẩy, Python tự động đóng gói (Tuple Packing) chúng thành một Tuple." },
@@ -571,7 +559,6 @@ let quizData = [];
 let answered = 0, correct = 0, wrong = 0;
 let totalQuestions = 0;
 
-// Hệ thống tính giờ
 let startTime, timerInterval;
 
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -594,7 +581,6 @@ function shuffleArray(array) {
   }
 }
 
-// Bấm giờ làm bài
 function updateTimer() {
   let elapsed = Math.floor((Date.now() - startTime) / 1000);
   let m = String(Math.floor(elapsed / 60)).padStart(2, '0');
@@ -637,7 +623,6 @@ function startQuiz(mode) {
   buildQuiz();
   updateProgress();
 
-  // Khởi động đồng hồ
   startTime = Date.now();
   timerInterval = setInterval(updateTimer, 1000);
 }
@@ -708,7 +693,7 @@ function updateProgress() {
 }
 
 function showResult() {
-  clearInterval(timerInterval); // Dừng đồng hồ
+  clearInterval(timerInterval); 
   
   const pct = Math.round(correct / totalQuestions * 100);
   const ring = document.getElementById('grade-ring');
@@ -723,7 +708,6 @@ function showResult() {
   document.getElementById('res-title').textContent = title;
   document.getElementById('res-sub').textContent = `Bạn đúng ${correct}/${totalQuestions} câu (${pct}%). ${sub}`;
   
-  // Hiển thị thời gian hoàn thành
   const timeTaken = document.getElementById('quiz-timer').textContent.replace('⏱️ ', '');
   document.getElementById('res-time').textContent = `⏱️ Thời gian hoàn thành: ${timeTaken}`;
 
@@ -753,11 +737,14 @@ function showResult() {
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
   // Cấu hình từ dự án của bạn
   const firebaseConfig = {
     apiKey: "AIzaSyCgXX1v_RAgkPeL9OH8q8EhpxnVO0YmZBU",
     authDomain: "python-quiz-db.firebaseapp.com",
+    // Link Database URL rất quan trọng cho Firebase Realtime DB
+    databaseURL: "https://python-quiz-db-default-rtdb.firebaseio.com", 
     projectId: "python-quiz-db",
     storageBucket: "python-quiz-db.firebasestorage.app",
     messagingSenderId: "51548747869",
@@ -767,20 +754,42 @@ function showResult() {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getDatabase(app); 
 
-  // Theo dõi trạng thái: Đã đăng nhập hay chưa?
+  let sessionListener = null;
+
   onAuthStateChanged(auth, (user) => {
     const btnLogout = document.getElementById('btn-logout');
+    
     if (user) {
       document.getElementById('login-screen').style.display = 'none';
-      if(btnLogout) btnLogout.style.display = 'flex'; // Hiện nút Đăng Xuất ở Menu
+      if(btnLogout) btnLogout.style.display = 'flex';
+
+      // Lấy Session ID hiện tại lưu trên máy
+      const localSessionId = localStorage.getItem('quiz_session_id');
+      const sessionRef = ref(db, 'user_sessions/' + user.uid);
+      
+      // Lắng nghe xem Database có bị thiết bị khác ghi đè Session mới không
+      sessionListener = onValue(sessionRef, (snapshot) => {
+        const currentDbSession = snapshot.val();
+        
+        if (currentDbSession && currentDbSession !== localSessionId) {
+          alert("⚠️ Tài khoản của bạn vừa được đăng nhập ở một thiết bị khác. Hệ thống sẽ tự động đăng xuất máy tính này.");
+          window.logoutFirebase(); 
+        }
+      });
+
     } else {
       document.getElementById('login-screen').style.display = 'flex';
-      if(btnLogout) btnLogout.style.display = 'none'; // Giấu nút đi khi chưa Login
+      if(btnLogout) btnLogout.style.display = 'none';
+      
+      if (sessionListener) {
+        sessionListener(); 
+        sessionListener = null;
+      }
     }
   });
 
-  // Hàm login
   window.loginWithFirebase = () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -795,6 +804,11 @@ function showResult() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         errBox.style.display = 'none';
+        
+        // Tạo Session ID độc nhất cho phiên làm việc này
+        const newSessionId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('quiz_session_id', newSessionId);
+        set(ref(db, 'user_sessions/' + userCredential.user.uid), newSessionId);
       })
       .catch((error) => {
         errBox.textContent = "Sai tài khoản hoặc mật khẩu!";
@@ -802,7 +816,6 @@ function showResult() {
       });
   };
 
-  // Ẩn / Hiện password
   window.togglePassword = () => {
     const pwdInput = document.getElementById('password');
     const toggleIcon = document.getElementById('toggle-pwd');
@@ -816,9 +829,9 @@ function showResult() {
     }
   };
 
-  // Hàm Đăng xuất
   window.logoutFirebase = () => {
     signOut(auth).then(() => {
+      localStorage.removeItem('quiz_session_id');
       location.reload(); 
     }).catch((error) => {
       console.log("Lỗi đăng xuất:", error);
