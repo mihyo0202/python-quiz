@@ -9,7 +9,7 @@
 
 :root {
   --bg: #0f1117; 
-  --surface: rgba(26, 29, 39, 0.75); 
+  --surface: rgba(26, 29, 39, 0.75); /* Đổi sang kính mờ */
   --surface2: rgba(34, 38, 58, 0.85); 
   --border: rgba(255, 255, 255, 0.08); 
   --accent: #7c6af7; --accent2: #56cfb2;
@@ -19,6 +19,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { 
   font-family: 'Inter', sans-serif; 
+  /* Thêm background cây cối mờ ảo tông tối đẳng cấp */
   background: linear-gradient(rgba(15, 17, 23, 0.88), rgba(15, 17, 23, 0.96)), url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
@@ -28,6 +29,7 @@ body {
   overflow-x: hidden; 
 }
 
+/* Menu chọn đề (Nâng cấp Glassmorphism) */
 #start-menu {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(15, 17, 23, 0.6); z-index: 1000;
@@ -56,6 +58,7 @@ body {
 .menu-btn.highlight { background: linear-gradient(90deg, var(--accent), var(--accent2)); color: #0f1117; border: none; }
 .menu-btn.highlight:hover { opacity: 0.95; box-shadow: 0 6px 20px rgba(86, 207, 178, 0.4); transform: translateY(-3px); }
 
+/* Header & Progress */
 .header {
   background: rgba(26,29,39,0.7); border-bottom: 1px solid var(--border);
   padding: 14px 20px; position: sticky; top: 0; z-index: 100;
@@ -67,6 +70,7 @@ body {
   display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
 }
 
+/* Nút Thoát & Các Nút Phụ */
 .btn-exit {
   background: var(--surface2); border: 1px solid var(--border); color: var(--text);
   border-radius: 8px; padding: 8px 14px; font-size: 0.85rem; font-weight: 600;
@@ -84,6 +88,7 @@ body {
 .score-c { color: var(--green); }
 .score-w { color: var(--red); }
 
+/* Quiz Main Layout */
 .main { max-width: 880px; margin: 0 auto; padding: 24px 16px 64px; display: none; }
 .q-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 24px; overflow: hidden; transition: border-color .3s; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
 .q-card.answered-correct { border-color: rgba(52,211,153,.6); box-shadow: 0 8px 24px rgba(52,211,153,0.15); }
@@ -157,6 +162,10 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
     <button class="menu-btn" onclick="startQuiz(4)" style="border-color: var(--accent2);">
       <span>🧠</span> Đề 3 - 125 Câu Tư Duy Tính Toán
     </button>
+
+    <button class="menu-btn" onclick="startQuiz(5)" style="border-color: #fbbf24;">
+      <span>🏆</span> Đề 4 - 50 Câu Tư Duy Tính Toán (2025-2026)
+    </button>
     
     <button class="menu-btn highlight" onclick="startQuiz(3)">
       <span>🎲</span> Đề Random Tổng Hợp (50 Câu)
@@ -173,8 +182,11 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
 <header class="header" id="main-header">
   <div class="header-inner">
     <button class="btn-exit" onclick="location.reload()">🔙 Thoát</button>
+    
     <h1 id="quiz-title">🐍 Python Quiz</h1>
+    
     <div class="timer-badge" id="quiz-timer">⏱️ 00:00</div>
+
     <div class="progress-wrap">
       <div class="progress-meta">
         <span id="prog-text">0 / 0 đã trả lời</span>
@@ -182,6 +194,7 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
       </div>
       <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
     </div>
+    
     <div class="score-badge">
       <span class="score-c">✓ <span id="cnt-c">0</span></span>
       &nbsp;&nbsp;
@@ -203,7 +216,7 @@ kw  { color: #c678dd; } fn  { color: #61afef; } bi  { color: #e5c07b; } num { co
 
 <script>
 // ==========================================
-// DATA 1: 100 CÂU CƠ BẢN
+// DATA 1: 100 CÂU CƠ BẢN (CẬP NHẬT ĐẦY ĐỦ TỪ PDF)
 // ==========================================
 const rawQuizData1 = [
   { q: "Output của đoạn code sau? (Trace Code kỹ):", c: "x = 0\nfor i in range(1, 5):\n  for j in range(1, i):\n    if (i + j) % 2 == 0:\n      x += i\n    else:\n      x -= 1\nprint(x)", o: ["A. 2", "B. 4", "C. 3", "D. 5"], a: 2, e: "Dựa vào logic, vòng lặp tính toán x ra lần lượt: -1 -> 2 -> 1 -> 0 -> 4 -> 3. Kết quả là 3." },
@@ -309,7 +322,7 @@ const rawQuizData1 = [
 ];
 
 // ==========================================
-// DATA 2: 100 CÂU NÂNG CAO
+// DATA 2: 100 CÂU NÂNG CAO (TỪ PDF)
 // ==========================================
 const rawQuizData2 = [
   { q: "Output của đoạn code sau? (List Slicing & Mutation)", c: "a = [1, 2, 3, 4, 5]\na[1:4] = [8, 9]\nprint(len(a))", o: ["A. 5", "B. 4", "C. 3", "D. Error"], a: 1, e: "List slicing a[1:4] thay thế 3 phần tử [2, 3, 4] bằng 2 phần tử [8, 9]. Mảng trở thành [1, 8, 9, 5] có độ dài là 4." },
@@ -352,6 +365,7 @@ const rawQuizData2 = [
   { q: "Output của đoạn code sau? (Phạm vi biến trong list Comprehension)", c: "val = 99\narr = [val for val in range(3)]\nprint(val)", o: ["A. 99", "B. 2", "C. 3", "D. NameError"], a: 0, e: "Từ Python 3, biến đếm của List Comprehension bị giam trong scope nội bộ của nó. Nó không bị 'rò rỉ' rác ra ngoài đè lên biến val = 99 ở global." },
   { q: "Output của đoạn code sau? (Xử lý mảng cực lớn với hàm Range)", c: "r = range(10**12)\nprint(len(r))", o: ["A. 1000000000000", "B. MemoryError", "C. 10", "D. 0"], a: 0, e: "Range trong Python là cấu trúc lazy cực thông minh. Nó chỉ lưu thông số đầu/cuối/bước chứ không bung toàn bộ mảng ra RAM, nên gọi len() trả số ngay tức khắc không tràn bộ nhớ." },
   { q: "Output của đoạn code sau? (Kiểu dữ liệu của một Class)", c: "class Student:\n  pass\nprint(type(Student))", o: ["A. <class 'type'>", "B. <class 'object'>", "C. <class '__main__.Student'>", "D. TypeError"], a: 0, e: "Trong Python, mọi thứ đều là object, kể cả class. Class được đúc ra từ một cấu trúc cha (metaclass) cao nhất mang tên là 'type'." },
+  // --- PHẦN 2: LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG - OOP ---
   { q: "Output của đoạn code sau? (Thứ tự phân giải phương thức - MRO)", c: "class A:\n  def ping(self): return 'A'\nclass B(A):\n  def ping(self): return 'B'\nclass C(A):\n  def ping(self): return 'C'\nclass D(B, C): pass\nprint(D().ping())", o: ["A. A", "B. B", "C. C", "D. Lỗi (Error)"], a: 1, e: "Đa kế thừa Python áp dụng thuật toán C3 Linearization. Lớp D kế thừa B và C. Nó ưu tiên tra trái sang phải, tìm thấy hàm ping ở B trước nên dừng và in ra B." },
   { q: "Output của đoạn code sau? (Kế thừa và hàm super)", c: "class Parent:\n  def show(self): return 'P'\nclass Child(Parent):\n  def show(self): return super().show() + 'C'\nprint(Child().show())", o: ["A. P", "B. C", "C. PC", "D. AttributeError"], a: 2, e: "Lệnh super().show() gọi kích hoạt hàm ở lớp cha Parent trả về 'P', cộng nối chuỗi nội bộ thành 'PC'." },
   { q: "Output của đoạn code sau? (Biến của Class so với biến của Instance)", c: "class Dog:\n  legs = 4\nd1 = Dog()\nd2 = Dog()\nd1.legs = 3\nprint(d1.legs, d2.legs, Dog.legs)", o: ["A. 3 3 4", "B. 3 4 4", "C. 4 4 4", "D. 3 3 3"], a: 1, e: "d1.legs=3 tạo một biến cục bộ cho instance d1. Trong khi đó d2 vẫn tham chiếu lên biến class chung. Kết quả 3, 4, 4." },
@@ -372,6 +386,7 @@ const rawQuizData2 = [
   { q: "Output của đoạn code sau? (Khởi tạo Abstract Base Class)", c: "from abc import ABC, abstractmethod\nclass Shape(ABC):\n  @abstractmethod\n  def area(self): pass\ntry:\n  s = Shape()\nexcept TypeError:\n  print('Err')", o: ["A. OK", "B. Err", "C. None", "D. ImportError"], a: 1, e: "Lớp trừu tượng (Abstract Class) đại diện cho khung thiết kế bản vẽ chưa hoàn chỉnh. Khởi tạo trực tiếp thực thể từ bản vẽ gây lỗi TypeError." },
   { q: "Output của đoạn code sau? (Độc lập biến class khi kế thừa)", c: "class Base:\n  val = 1\nclass Sub(Base):\n  pass\nSub.val += 2\nprint(Base.val, Sub.val)", o: ["A. 1 1", "B. 3 3", "C. 1 3", "D. 2 1"], a: 2, e: "Phép thay đổi Sub.val tự động khởi tạo biến mới riêng biệt trên class Sub. Biến gốc Base.val được bảo vệ độc lập là 1, của Sub thành 3." },
   { q: "Output của đoạn code sau? (Kế thừa thiếu super().__init__)", c: "class Parent:\n  def __init__(self):\n    self.x = 10\nclass Child(Parent):\n  def __init__(self):\n    self.y = 20\nc = Child()\ntry:\n  print(c.x)\nexcept AttributeError:\n  print('Err')", o: ["A. 10", "B. 20", "C. Err", "D. None"], a: 2, e: "Ghi đè hàm init ở lớp Child mà không gọi super().__init__ khiến tính trạng x của lớp cha không bao giờ được cấu trúc. Gọi c.x báo AttributeError." },
+  // --- PHẦN 3: CẤU TRÚC DỮ LIỆU & GIẢI THUẬT ---
   { q: "Độ phức tạp thời gian (Time Complexity) của đoạn code sau?: \nn = len(arr)\nfor i in range(n):\n  j = 1\n  while j < n:\n    j *= 2", c: "", o: ["A. O(n log n)", "B. O(n^2)", "C. O(n)", "D. O(log n)"], a: 0, e: "Vòng ngoài chạy tuyến tính N lần. Vòng trong nhân đôi biến j khiến nó đạt ngưỡng n bằng tốc độ hàm logarit cơ số 2. Kết hợp O(n log n)." },
   { q: "Độ phức tạp của hàm đệ quy tính toán dãy số Fibonacci sau đây?: \ndef fib(n):\n  if n <= 1: return n\n  return fib(n-1) + fib(n-2)", c: "", o: ["A. O(n)", "B. O(n^2)", "C. O(2^n)", "D. O(log n)"], a: 2, e: "Đây là thuật toán vét cạn chia cây đệ quy thành 2 nhánh chồng chất gọi liên tục vô hạn cấp. Tốc độ phình to bùng nổ hàm mũ O(2^n)." },
   { q: "Cấu trúc dữ liệu nào giúp kiểm tra sự tồn tại (x in collection) nhanh nhất trong trường hợp trung bình?:", c: "", o: ["A. List", "B. Dictionary / Set", "C. Tuple", "D. Linked List"], a: 1, e: "Cơ chế Hash table nội tại của Dict/Set dùng phép toán băm (hash) truy xuất vị trí cực nhanh. Chỉ mất O(1) để xác nhận phần tử tồn tại." },
@@ -392,6 +407,7 @@ const rawQuizData2 = [
   { q: "Sử dụng Quy hoạch động (Dynamic Programming - Array Memoization) để tính dãy Fibonacci sẽ kéo giảm độ phức tạp thời gian xuống còn bao nhiêu?:", c: "", o: ["A. O(n)", "B. O(2^n)", "C. O(1)", "D. O(n^2)"], a: 0, e: "Phương pháp tạo mảng tĩnh lưu trữ đáp án các nhánh con trùng lặp, triệt tiêu xử lý dư thừa tính lại từ đầu hạ độ phức tạp về tuyến tính O(n)." },
   { q: "Thuật toán trí tuệ nhân tạo K-Means thường được phân loại vào nhóm học máy (Machine Learning) chủ đạo nào?:", c: "", o: ["A. Học có giám sát", "B. Học không giám sát (Unsupervised Learning - Phân cụm)", "C. Học tăng cường", "D. Học sâu Deep Learning"], a: 1, e: "Thuật toán phân tích tọa độ data vô định hướng trên không gian gom về các nhóm bầy đàn chung điểm tương đồng (Clustering) không label giám sát." },
   { q: "Độ phức tạp của một thuật toán có cấu trúc 3 vòng lặp for lồng ghép phụ thuộc lẫn nhau, mỗi vòng quét N lần là?:", c: "", o: ["A. O(n)", "B. O(n^2)", "C. O(n^3)", "D. O(log n)"], a: 2, e: "Số vòng xử lý lõi bùng nổ cấp số nhân theo chiều không gian vòng lặp. Vòng trong N, Vòng giữa N, Vòng ngoài N = N*N*N = N^3 (O(n^3))." },
+  // --- PHẦN 4: HỆ THỐNG, BỘ NHỚ & ADVANCED PYTHON ---
   { q: "Output của đoạn code sau? (Phạm vi biến của Exception)", c: "try:\n  1/0\nexcept ZeroDivisionError as e:\n  pass\n\ntry:\n  print('Caught')\n  print(e)\nexcept NameError:\n  print('Not Defined')", o: ["A. Caught tiếp theo e", "B. Caught tiếp theo Not Defined", "C. Caught None", "D. Lỗi SyntaxError"], a: 1, e: "Trên Python 3, ra khỏi khối except thì biến e lập tức bị Garbage Collector xóa sổ để dọn RAM. Việc gọi print(e) phía dưới kích hoạt NameError." },
   { q: "Output của đoạn code sau? (Thời điểm tính toán tham số mặc định)", c: "import time\ndef test(arg=time.time()):\n  return arg\nval1 = test()\ntime.sleep(0.1)\nval2 = test()\nprint(val1 == val2)", o: ["A. True", "B. False", "C. TypeError", "D. None"], a: 0, e: "Tham số mặc định (time.time()) chỉ được chốt cứng tính toán MỘT LẦN duy nhất lúc đọc biên dịch file (parse time). Gọi hàm muộn cách mấy nó vẫn in con số cũ (True)." },
   { q: "Output của đoạn code sau? (Phạm vi biến trong Class)", c: "x = 1\nclass MyClass:\n  x = 2\n  def get_x(self):\n    return x\nobj = MyClass()\nprint(obj.x, obj.get_x())", o: ["A. 2 2", "B. 2 1", "C. 1 1", "D. 1 2"], a: 1, e: "obj.x truy cập biến class = 2. Trong hàm get_x, chữ x đứng trơ trọi (không kèm self hay cls) Python sẽ vượt rào lục tìm biến toàn cục global x = 1. Kết quả 2 1." },
@@ -422,7 +438,7 @@ while(rawQuizData2.length < 100) {
   });
 }
 // ==========================================
-// DATA 3: BỘ 125 CÂU TƯ DUY TÍNH TOÁN
+// DATA 3: BỘ 125 CÂU TƯ DUY TÍNH TOÁN & PYTHON (CHUẨN FORMAT)
 // ==========================================
 const rawQuizData3 = [
   { q: "Hàm sau trả về giá trị gì?", c: "def q1():\n  return 1, 2", o: ["A. 1", "B. 2", "C. (1, 2)", "D. [1, 2]"], a: 2, e: "Khi dùng lệnh return với nhiều giá trị cách nhau bằng dấu phẩy, Python tự động đóng gói (Tuple Packing) chúng thành một Tuple." },
@@ -551,6 +567,61 @@ const rawQuizData3 = [
   { q: "Kiểm thử \"black-box\" nhấn mạnh điều gì?", c: "", o: ["A. Quan tâm đầu vào đầu ra theo đặc tả, không cần nhìn mã nguồn", "B. Kiểm thử từng nhánh if trong mã", "C. Khám phá luồng dữ liệu chạy trong bộ nhớ", "D. Chỉ kiểm tra các hàm built-in"], a: 0, e: "Hộp đen (Black-box) đóng gói vô hình luồng mã bên trong (Developer không thể thấy), chỉ việc đẩy input dò số và kiểm check output chốt sổ chuẩn spec." },
   { q: "Cho hàm sau (đệ quy trên dữ liệu lồng nhau), chương trình in ra gì?", c: "def count_ints(k):\n  if type(k) == int:\n    return 1\n  if type(k) == list:\n    total = 0\n    for item in k:\n      total = total + count_ints(item)\n    return total\n  return 0\n\nprint(count_ints([[1, 2], 3, [\"a\", [4]]]))", o: ["A. 3", "B. 4", "C. 5", "D. 6"], a: 1, e: "Dùng đệ quy lặn sâu vào các tầng list con, đếm số lượng các phần tử có kiểu dữ liệu là số nguyên (int). Cụ thể là số 1, 2, 3 và 4. Đếm được 4 phần tử." }
 ];
+// ==========================================
+// DATA 4: BỘ 50 CÂU TƯ DUY TÍNH TOÁN (ĐỀ CUỐI KÌ 1 2025-2026) - FORM CHUẨN
+// ==========================================
+const rawQuizData4 = [
+  { q: "Cho đoạn mã sau. Khi phân tích đoạn mã trên dưới góc độ Computational Thinking, concept nào được áp dụng trọng tâm nhất?", c: "def solve(data):\n    result = []\n    for x in data:\n        if x % 2 == 0:\n            result.append(x * 2)\n        else:\n            result.append(x * 3)\n    return result\n\ndata = [int(x) for x in input().split()]\noutput = solve(data)\nprint(output)", o: ["A. Algorithm Design", "B. Không có đáp án đúng", "C. Abstraction", "D. Pattern Recognition", "E. Decomposition"], a: 0, e: "Đoạn mã định nghĩa một dãy bước cụ thể, rõ ràng để xử lý dữ liệu (lặp, kiểm tra điều kiện, biến đổi) — đây chính là việc thiết kế giải thuật (Algorithm Design)." },
+  { q: "Lựa chọn nào mô tả đúng nhất về 'máy tính' (so với con người) trong giải quyết vấn đề?", c: "", o: ["A. Máy tính chỉ nhanh hơn con người khi bài toán nhỏ, còn dữ liệu lớn thì chậm", "B. Máy tính không sáng tạo, xử lý dữ liệu lớn, rất nhanh và có độ chính xác cao", "C. Máy tính sáng tạo, trực giác tốt, nhưng xử lý dữ liệu nhỏ", "D. Máy tính sáng tạo kém, nhưng thường xuyên mắc lỗi nên phải debug liên tục", "E. Máy tính có trực giác tốt hơn con người nên thường tìm ra giải pháp tối ưu"], a: 1, e: "Máy tính không có khả năng sáng tạo hay trực giác như con người, nhưng xử lý dữ liệu với tốc độ và độ chính xác cao — đây là đặc điểm cơ bản trong Computational Thinking." },
+  { q: "Hàm input() trong Python 3 luôn trả về dữ liệu thuộc kiểu nào?", c: "", o: ["A. Float", "B. Integer (int)", "C. Nó phụ thuộc vào nội dung người dùng nhập vào", "D. String (str)"], a: 3, e: "Trong Python 3, input() luôn trả về kiểu chuỗi (str), bất kể người dùng nhập gì; muốn dùng dạng số phải tự ép kiểu (ví dụ int() hoặc float())." },
+  { q: "Những toán tử nào sau đây dùng để thực hiện phép chia lấy phần DƯ?", c: "", o: ["A. %", "B. div", "C. //", "D. /"], a: 0, e: "Toán tử % trong Python trả về phần dư của phép chia (modulo). Toán tử // là chia lấy phần nguyên, / là chia lấy giá trị thực." },
+  { q: "Phát biểu nào sau đây đúng về biến cục bộ (local variable) trong Python?", c: "", o: ["A. Chỉ tồn tại trong suốt quá trình thực thi của hàm mà nó được khai báo.", "B. Được khai báo bên ngoài tất cả các hàm và có thể truy cập ở bất cứ đâu.", "C. Tự động trở thành biến toàn cục nếu hàm được gọi nhiều lần.", "D. Có thể được truy cập trực tiếp từ bên ngoài hàm bằng tên của nó."], a: 0, e: "Biến cục bộ (local variable) chỉ được tạo ra khi hàm chạy và bị hủy ngay khi hàm kết thúc, không thể truy cập từ bên ngoài hàm." },
+  { q: "Quy tắc đặt tên biến nào sau đây là SAI trong Python?", c: "", o: ["A. Tên biến có thể bắt đầu bằng một chữ số.", "B. Tên biến có thể chứa các chữ cái, chữ số và dấu gạch dưới (_).", "C. Không được sử dụng các từ khóa của Python làm tên biến.", "D. Tên biến có phân biệt chữ hoa và chữ thường.", "E. Tên biến có thể bắt đầu bằng một dấu gạch dưới (_)."], a: 0, e: "Trong Python, tên biến không được phép bắt đầu bằng một chữ số — đây là quy tắc bị vi phạm (đáp án SAI cần chọn). Các phát biểu còn lại đều đúng." },
+  { q: "Xét độ ưu tiên toán tử trong biểu thức logic sau:", c: "x = 5; y = 10; z = 15\nres = (x < y) and (y > z) or not (x == z - 10)\nprint(res)", o: ["A. 1", "B. FALSE", "C. Error", "D. TRUE"], a: 1, e: "(x<y)=True, (y>z)=False → True and False = False. (x==z-10) là (5==5)=True → not True = False. Vậy res = False or False = False." },
+  { q: "Cho đoạn mã sau. Chương trình sẽ in ra gì?", c: "raining = True\nfreezing = False\n\nif raining and freezing:\n    print('Waterproof coat')\nelif raining and (not freezing):\n    print('Umbrella')\nelif (not raining) and freezing:\n    print('Warm coat')\nelse:\n    print('Sweater')", o: ["A. Sweater", "B. Umbrella", "C. Waterproof coat", "D. Không in ra gì", "E. Warm coat"], a: 1, e: "raining=True, freezing=False nên điều kiện đầu sai, điều kiện thứ hai (raining and not freezing) đúng → in 'Umbrella'." },
+  { q: "Cho hàm sau:", c: "def f(n):\n    if n % 2 == 0:\n        if n % 3 == 0:\n            return \"X\"\n        else:\n            return \"Y\"\n    else:\n        return \"Z\"", o: ["A. 9", "B. 21", "C. 18", "D. 12", "E. 20"], a: 4, e: "Hàm trả về 'Y' khi n chẵn nhưng không chia hết cho 3. Trong các lựa chọn, chỉ 20 thỏa: chẵn và không chia hết cho 3." },
+  { q: "Giả sử a = 5, b = 10. Điều kiện nào sau đây sẽ trả về True?", c: "", o: ["A. a < b and a != 5", "B. a > b or a == 5", "C. a == b", "D. not (a < b)"], a: 1, e: "a<b and a!=5 → True and False = False. a>b or a==5 → False or True = True. a==b là False. not(a<b) là not True = False. Vậy chỉ phương án B đúng." },
+  { q: "Luật truy cập: Nhân viên có thẻ → được vào. Khách có giấy mời → được vào. Các trường hợp khác → không được vào. Xét đoạn mã:", c: "def allow_access(is_employee, has_card, is_guest, has_invite):\n    if is_employee:\n        if has_card:\n            return True\n        else:\n            return False\n    if is_guest:\n        if has_invite:\n            return True\n        else:\n            return False\n    else:\n        return False\n\nprint(allow_access(True, False, True, True))", o: ["A. False - vì nhánh nhân viên trả về sớm, làm cho điều kiện khách không bao giờ được xét", "B. True - vì điều kiện khách có giấy mời vẫn được kiểm tra", "C. Lỗi runtime do thiếu kiểu dữ liệu", "D. True - vì cả hai điều kiện đều độc lập", "E. False - vì thiếu elif nên Python gán sai else"], a: 0, e: "Kết quả in ra là gì, và tại sao kết quả này không đúng với yêu cầu ban đầu? Vì is_employee=True nên hàm return False ngay trong nhánh đầu (has_card=False) và không bao giờ chạy tới việc kiểm tra is_guest, dù khách có giấy mời thật." },
+  { q: "Xét đoạn mã:", c: "def grade(score):\n    if score >= 90:\n        return \"A\"\n    elif score >= 75:\n        return \"B\"\n    elif score >= 60:\n        return \"C\"\n    else:\n        return \"D\"", o: ["A. [90, 80, 75, 60]", "B. [89, 80, 74, 59]", "C. [60, 60, 60, 60]", "D. [100, 0]", "E. [95, 80, 65, 40]"], a: 4, e: "Tập test input nào dưới đây đảm bảo *bao phủ đầy đủ các nhánh* (mỗi nhánh if/elif/else được chạy ít nhất một lần)? [95, 80, 65, 40] cho điểm lần lượt rơi vào A (≥90), B (≥75), C (≥60), D (else) — bao phủ đủ cả 4 nhánh." },
+  { q: "Cho đoạn mã python sau:", c: "nums = [2, 3, 5, 7, 11]\nres = 0\nfor i, v in enumerate(nums):\n    if i == 0:\n        continue\n    if v % nums[i-1] == 0:\n        res += 10\n    else:\n        res += (v - nums[i-1])\nprint(res)", o: ["A. 13", "B. 11", "C. 15", "D. 9", "E. 7"], a: 3, e: "Kết quả sau khi chạy đoạn code trên là: i=1: 3%2!=0 → res+=1; i=2: 5%3!=0 → res+=2; i=3: 7%5!=0 → res+=2; i=4: 11%7!=0 → res+=4. Tổng = 1+2+2+4 = 9." },
+  { q: "Trong đoạn mã sau, kết quả được in ra là gì?", c: "def incr_list(nums):\n    for n in nums:\n        n = n+1\n    return nums\n\nlst = [6, 0, 7]\nprint(incr_list(lst))", o: ["A. [6, 0, 7]", "B. Không in ra gì", "C. Chương trình báo lỗi", "D. [6, 0, 7, 1, 1, 1]", "E. [7, 1, 8]"], a: 0, e: "Biến n chỉ là tham chiếu tạm trong vòng lặp; gán lại n = n+1 không thay đổi phần tử thực trong list gốc. Vậy list nums không đổi: [6, 0, 7]." },
+  { q: "Hàm range(2, 10, 3) sẽ tạo ra dãy số nào sau đây?", c: "", o: ["A. 5, 8", "B. 2, 5, 8", "C. 2, 3, 4, 5, 6, 7, 8, 9", "D. 2, 5, 8, 11"], a: 1, e: "range(2, 10, 3) bắt đầu từ 2, bước nhảy 3, dừng trước 10: 2, 5, 8 (11 vượt quá 10 nên không có)." },
+  { q: "Hàm xử lý chuỗi sau trả về kết quả gì?", c: "data = 'a1b2c3d4'\nres = ''\nfor char in data:\n    if char.isdigit():\n        res += str(int(char) * 2)\n    else:\n        res += char.upper()\nprint(res)", o: ["A. a2b4c6d8", "B. A1B2C3D4", "C. ABCD", "D. A2B4C6D8"], a: 3, e: "Mỗi chữ cái được viết hoa, mỗi chữ số được nhân 2: a→A, 1→2, b→B, 2→4, c→C, 3→6, d→D, 4→8. Kết quả: A2B4C6D8." },
+  { q: "Cho đoạn mã python sau:", c: "def add(x, L=[]):\n    if L is None:\n        L = []\n    L.append(x)\n    return L\n\nprint(add(1), add(2), add(3))", o: ["A. Error", "B. [1] [1, 2] [1, 2, 3]", "C. [1] [2] [3]", "D. 1 2 3", "E. [1, 2, 3]"], a: 1, e: "Kết quả sau khi chạy đoạn code trên là: tham số mặc định L=[] chỉ được tạo một lần và dùng chung cho mọi lần gọi hàm (mutable default argument) — list bị cộng dồn qua các lần gọi, in ra [1] [1, 2] [1, 2, 3]." },
+  { q: "Kết quả của đoạn code sau là gì?", c: "s = 0\nfor i in range(1, 4):\n    s += i\nprint(s)", o: ["A. 10", "B. 6", "C. 12", "D. 3"], a: 1, e: "range(1,4) cho 1, 2, 3. Tổng s = 1+2+3 = 6." },
+  { q: "Cho đoạn mã sau:", c: "nums = [6, 0, 7]\nfor n in nums:\n    n = n + 1\nprint(nums)", o: ["A. [6, 0, 7, 1]", "B. [7, 1, 8]", "C. [6, 0, 7]", "D. Báo lỗi vì không thể cộng 1 cho phần tử trong list", "E. [6, 1, 7]"], a: 2, e: "Chương trình in ra gì? Biến n chỉ là một tham chiếu cục bộ trong vòng lặp, gán lại n không làm thay đổi các phần tử thực trong list. List nums vẫn giữ nguyên [6, 0, 7]." },
+  { q: "Kết quả sau khi thực hiện chương trình sau:", c: "x = (i for i in range(3))\nfor i in x:\n    print(i)\nfor i in x:\n    print(i)", o: ["A. 0 1 2", "B. Error", "C. 0 1 2 0 1 2", "D. Không đáp án nào đúng"], a: 0, e: "x là generator, chỉ có thể duyệt qua một lần. Vòng lặp đầu in 0, 1, 2; vòng lặp thứ hai không in gì vì generator đã cạn. Vậy chương trình chỉ in ra 0 1 2." },
+  { q: "Cho định nghĩa hàm sau:", c: "def check_value(n):\n    \"\"\"Kiểm tra số n.\n    Trả về True nếu n là số dương, ngược lại False.\"\"\"\n    return n > 0", o: ["A. Hàm trên sẽ gây lỗi AssertionError nếu ta truyền vào số 0", "B. assert check_value(-1) == True sẽ không gây ra lỗi", "C. Câu lệnh assert check_value(10) sẽ trả về kết quả là None ra màn hình", "D. assert check_value(5) == True sẽ không gây ra lỗi", "E. Docstring của hàm không cung cấp thông tin về giá trị trả về"], a: 3, e: "Khẳng định nào sau đây về việc kiểm thử hàm này là đúng? check_value(5) trả về True (vì 5>0), nên assert check_value(5) == True luôn đúng, không gây lỗi. Các phương án khác đều sai theo logic của hàm." },
+  { q: "Phát biểu nào mô tả đúng nhất về 'specification' (đặc tả) của một hàm?", c: "", o: ["A. Đặc tả mô tả hàm *làm gì* (hành vi), thường viết dưới dạng docstring: tham số, kết quả trả về, và điều kiện liên quan.", "B. Đặc tả chỉ cần viết sau khi đã code xong để 'cho đẹp'.", "C. Đặc tả chỉ gồm tên hàm và danh sách tham số (không cần mô tả).", "D. Đặc tả mô tả *cách* cài đặt chi tiết từng dòng lệnh trong hàm.", "E. Đặc tả là một file riêng, không liên quan đến docstring."], a: 0, e: "Specification tập trung vào hành vi (input, output, điều kiện) — 'làm gì', không phải 'làm như thế nào' (đó là cài đặt/implementation)." },
+  { q: "Đâu là output đoạn mã sau:", c: "def writer():\n    title = 'Sir'\n    name = (lambda x: title + ' ' + x)\n    return name\n\nwho = writer()\nprint(who('Arthur'))", o: ["A. Arthur Sir", "B. Arthur", "C. Không đáp án đúng", "D. Sir Arthur"], a: 3, e: "Hàm lambda closure giữ tham chiếu tới biến title = 'Sir' từ hàm writer(). Khi gọi who('Arthur'), kết quả là 'Sir' + ' ' + 'Arthur' = 'Sir Arthur'." },
+  { q: "Yêu cầu: Nhập một chuỗi từ bàn phím, chuyển toàn bộ thành chữ thường, rồi in ra. Xét đoạn mã sau:", c: "text = input\nresult = text.lower\nprint(result)", o: ["A. In ra một object hàm - sai vì không gọi hàm", "B. In ra chuỗi người dùng nhập ở dạng chữ thường - đúng yêu cầu", "C. Không in ra gì", "D. In ra chuỗi người dùng nhập - sai vì thiếu .lower()", "E. Lỗi TypeError do lower không nhận tham số"], a: 0, e: "Kết quả thực thi đoạn mã in ra là gì? text = input (thiếu dấu ()) chỉ gán đối tượng hàm input, không gọi hàm. Tương tự result = text.lower chỉ gán method object, không thực thi. print(result) in ra một bound method object, không phải chuỗi đã xử lý." },
+  { q: "Phân tích đoạn mã dưới đây. Khi thực thi, chương trình sẽ dừng lại (tung ra AssertionError) ở dòng nào?", c: "def power(base, exp):\n    if exp == 0: return 1\n    if exp < 0: return 1 / power(base, -exp)\n    return base * power(base, exp - 1)\n\n# Test cases\nassert power(2, 3) == 8        # Dòng 1\nassert power(5, 0) == 1        # Dòng 2\nassert power(2, -1) == 0.5     # Dòng 3\nassert power(-2, 2) == -4      # Dòng 4\nassert power(10, 2) == 100     # Dòng 5", o: ["A. Không có dòng nào, tất cả các test đều vượt qua.", "B. Dòng 3", "C. Dòng 5", "D. Dòng 4", "E. Dòng 1"], a: 3, e: "power(-2, 2) tính đúng ra 4 (vì (-2)*(-2)=4), không phải -4 như assert kỳ vọng. Vậy chương trình dừng và báo lỗi tại Dòng 4." },
+  { q: "Kết quả thực hiện đoạn mã sau:", c: "total={}\ndef insert(items):\n    if items in total:\n        total[items] += 1\n    else:\n        total[items] = 1\n\ninsert('Apple')\ninsert('Ball')\ninsert('Apple')\nprint(len(total))", o: ["A. 1", "B. 2", "C. 0", "D. 3"], a: 1, e: "'Apple' và 'Ball' là 2 khóa khác nhau trong dict total (lần insert thứ 3 chỉ tăng giá trị của khóa 'Apple' đã có). Vậy len(total) = 2." },
+  { q: "Kết quả khi thực thi đoạn mã này là gì?", c: "counts = {\"apple\": 1, \"banana\": 2}\n\nfor fruit in counts:\n    if counts[fruit] > 1:\n        counts[\"orange\"] = 3\n    else:\n        counts[fruit] += 1\n\nprint(len(counts))", o: ["A. In ra 3", "B. Chương trình chạy vô hạn (Infinite loop)", "C. Chương trình báo lỗi RuntimeError: dictionary changed size during iteration", "D. In ra 2", "E. Chương trình báo lỗi KeyError: 'orange'"], a: 2, e: "Khi đang lặp qua \"banana\" (giá trị 2 > 1), chương trình thêm khóa mới \"orange\" vào dict ngay trong lúc vòng lặp đang chạy trên counts — Python cấm thay đổi kích thước dict khi đang iterate, gây lỗi RuntimeError." },
+  { q: "Kết quả của đoạn code sau là gì?", c: "s = {1, 2, 3}\nt = {3, 4}\nprint(s & t)", o: ["A. Lỗi cú pháp", "B. {1, 2, 3, 4}", "C. {1, 2, 4}", "D. {3}"], a: 3, e: "Toán tử & giữa hai set trả về phần giao (intersection). Giao của {1,2,3} và {3,4} chỉ có phần tử 3 chung, nên kết quả là {3}." },
+  { q: "Cho đoạn mã sau:", c: "d = {\"a\": 1, \"b\": 2}\nprint(d.get(\"c\", 0))", o: ["A. None", "B. \"c\"", "C. Báo lỗi TypeError", "D. Báo lỗi KeyError", "E. 0"], a: 4, e: "Chương trình in ra gì? dict.get(key, default) trả về giá trị mặc định nếu key không tồn tại, không gây lỗi. Vì \"c\" không có trong d, hàm trả về 0." },
+  { q: "Cách nào sau đây sẽ lấy ra được đoạn [20, 30, 40] từ my_list = [10, 20, 30, 40, 50]?", c: "my_list = [10, 20, 30, 40, 50]", o: ["A. my_list[2:5]", "B. my_list[1:4]", "C. my_list[1:-2]", "D. my_list[1:3]"], a: 1, e: "my_list[1:4] lấy các phần tử từ chỉ số 1 đến trước chỉ số 4, tức [20, 30, 40] — đúng yêu cầu." },
+  { q: "Kết quả in ra màn hình của đoạn code sau là gì?", c: "def update_record(rec):\n    rec['status'] = 'Active'\n    rec = {'id': 99, 'status': 'Pending'}\n    rec['status'] = 'Closed'\n\nmy_record = {'id': 1}\nupdate_record(my_record)\nprint(my_record.get('status'))", o: ["A. Pending", "B. None", "C. Active", "D. Closed"], a: 2, e: "Dòng đầu sửa trực tiếp dict gốc (my_record['status']='Active'). Dòng sau gán rec = {...} chỉ làm rec trỏ tới một dict khác trong bộ nhớ, không ảnh hưởng tới my_record gốc. Vậy my_record['status'] vẫn là 'Active'." },
+  { q: "Cho mảng số nguyên A = [29, 10, 14, 37, 13]. Nếu sử dụng thuật toán Sắp xếp chọn (Selection Sort) để sắp xếp mảng theo thứ tự tăng dần, trạng thái của mảng sau 2 lần hoán đổi (swaps) đầu tiên là gì?", c: "", o: ["A. [10, 13, 14, 29, 37]", "B. [10, 13, 14, 37, 29]", "C. [10, 14, 29, 13, 37]", "D. [10, 13, 29, 37, 14]", "E. [10, 29, 14, 37, 13]"], a: 1, e: "Lần 1: tìm min toàn mảng (10) đổi với vị trí 0 → [10, 29, 14, 37, 13]. Lần 2: tìm min trong phần còn lại (13) đổi với vị trí 1 (29) → [10, 13, 14, 37, 29]." },
+  { q: "Đâu là phát biểu đúng về Linear search (tìm kiếm tuyến tính)?", c: "", o: ["A. Duyệt từng phần tử cho tới khi gặp mục tiêu hoặc hết danh sách", "B. Chỉ dùng cho danh sách đã sắp xếp", "C. Luôn có độ phức tạp O(log n)", "D. Luôn nhanh hơn tìm kiếm nhị phân (binary search)"], a: 0, e: "Linear search kiểm tra tuần tự từng phần tử của danh sách theo thứ tự cho đến khi tìm thấy mục tiêu hoặc duyệt hết danh sách. Nó không yêu cầu danh sách phải được sắp xếp và có độ phức tạp O(n), không phải O(log n)." },
+  { q: "Yêu cầu: Sắp xếp danh sách số theo thứ tự tăng dần bằng merge sort. Xét đoạn mã sau:", c: "def merge(left, right):\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] < right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    return result\n\ndef merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)\n\nprint(merge_sort([3, 1, 4, 2]))", o: ["A. [1, 3, 4, 2] - sai do chia mảng sai", "B. [1] - sai vì các phần tử còn thừa không được ghép", "C. [3, 4] - sai vì chỉ ghép nửa đầu", "D. Lỗi IndexError", "E. [1, 2, 3, 4] - đúng với merge sort"], a: 1, e: "Kết quả in ra là gì? Hàm merge() thiếu bước thêm các phần tử còn dư của left hoặc right vào result sau khi vòng while kết thúc. Vì vậy nhiều phần tử bị mất, kết quả cuối cùng chỉ còn [1] thay vì [1, 2, 3, 4]." },
+  { q: "Cho đoạn mã sau (giả sử arr đã tăng dần):", c: "def bs(arr, target):\n    lo, hi = 0, len(arr) - 1\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid\n    return -1", o: ["A. Trả về sai khi target ở giữa mảng", "B. Trả về sai khi mảng có số âm", "C. Không sai, luôn đúng với mảng tăng dần", "D. Trả về sai khi mảng có phần tử trùng nhau", "E. Trả về sai khi target đúng bằng phần tử cuối cùng của mảng"], a: 4, e: "Hàm trên sai trong trường hợp nào? Điều kiện vòng lặp là lo < hi (không phải <=), nên khi target nằm ở vị trí cuối mảng (lo = hi), vòng lặp không chạy và hàm trả về -1 sai, dù phần tử đó thực sự có trong mảng." },
+  { q: "Đoạn mã này có một lỗi logic ẩn khiến kết quả trả về bị thiếu dữ liệu. Đó là lỗi gì?", c: "def merge(left, right):\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] < right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    # [VỊ TRÍ LỖI]\n    return result", o: ["A. Thiếu việc thêm các phần tử còn dư của mảng left hoặc right vào result.", "B. Biến i và j không được khởi tạo lại bằng 0 bên trong hàm.", "C. Kết quả result phải được sắp xếp lại bằng hàm sort().", "D. Vòng lặp while bị sai điều kiện, phải là or thay vì and.", "E. Phép so sánh left[i] < right[j] làm thuật toán không ổn định (unstable)."], a: 0, e: "Khi một trong hai mảng left hoặc right hết phần tử trước, vòng while kết thúc nhưng mảng còn lại vẫn còn phần tử chưa được thêm vào result. Đây chính là bug ở câu 34 trước đó." },
+  { q: "Chương trình báo lỗi AttributeError: 'SmartDevice' object has no attribute 'brand'. Lỗi nằm ở dòng nào?", c: "class SmartDevice:\n    def __init__(self, brand, price):\n        brand = brand        # Dòng 1\n        self.price = price   # Dòng 2\n\n    def display(self):\n        print(f\"Brand: {self.brand}, Price: {self.price}\")  # Dòng 3\n\nphone = SmartDevice(\"UET-Phone\", 500)\nphone.display()", o: ["A. Dòng khởi tạo phone: Thiếu tham số truyền vào.", "B. Dòng 2: Không được gán trực tiếp giá trị vào self.price.", "C. Dòng 3: F-string không hỗ trợ truy cập thuộc tính đối tượng.", "D. Tên lớp SmartDevice không được viết hoa chữ cái đầu.", "E. Dòng 1: Thiếu từ khóa self. để tạo thuộc tính cho đối tượng."], a: 4, e: "Ở Dòng 1, brand = brand chỉ gán lại biến tham số cục bộ, không tạo thuộc tính self.brand cho đối tượng. Vì thiếu self., khi display() truy cập self.brand sẽ báo lỗi AttributeError." },
+  { q: "Biến Class (Class Variable) vs Biến Instance:", c: "class Dog:\n    kind = 'canine' # Class variable\n    def __init__(self, name):\n        self.name = name\n\nd1 = Dog('Fido')\nd2 = Dog('Buddy')\nd1.kind = 'wolf'\nprint(d1.kind, d2.kind)", o: ["A. canine wolf", "B. canine canine", "C. wolf wolf", "D. wolf canine"], a: 3, e: "d1.kind = 'wolf' tạo một thuộc tính instance mới riêng cho d1, không ảnh hưởng tới biến class kind dùng chung. d2 vẫn dùng biến class gốc 'canine'. Kết quả: wolf canine." },
+  { q: "Đoạn mã Python sau sẽ cho ra kết quả gì?", c: "class Test:\n    def __init__(self, a=\"Hello World\"):\n        self.a = a\n    def display(self):\n        print(self.a)\n\nobj = Test()\nobj.display()", o: ["A. Không hiển thị gì", "B. Chương trình báo lỗi vì hàm tạo không thể có các tham số mặc định.", "C. \"Hello World\"", "D. Chương trình có chức năng hiển thị lỗi nhưng không có tham số."], a: 2, e: "Tham số a có giá trị mặc định \"Hello World\". Khi tạo obj = Test() không truyền tham số, self.a nhận giá trị mặc định, nên display() in ra \"Hello World\"." },
+  { q: "Đoạn code sau có kết quả là gì?", c: "class A:\n    def f(self):\n        return \"A\"\n\nclass B(A):\n    def f(self):\n        return \"B\"\n\nx = B()\nprint(x.f())", o: ["A. B", "B. Lỗi vì B kế thừa A không được ghi đè", "C. In cả \"A\" và \"B\"", "D. A"], a: 0, e: "Lớp B kế thừa A và ghi đè (override) phương thức f(). Khi gọi x.f() với x là instance của B, Python ưu tiên dùng phương thức của lớp con B, kết quả in ra \"B\"." },
+  { q: "Hàm tính giai thừa sử dụng đệ quy (Recursion):", c: "def fact(n):\n    if n == 0: return 1\n    return n * fact(n-1)\n\nprint(fact(4) - fact(3))", o: ["A. 18", "B. 20", "C. 24", "D. 6"], a: 0, e: "fact(4) = 4*3*2*1 = 24, fact(3) = 3*2*1 = 6. Kết quả: 24 - 6 = 18." },
+  { q: "Cho hàm đệ quy xử lý danh sách lồng nhau (Nested List) như sau. Kết quả của calculate([1, [2, [3, 4]], 5]) là bao nhiêu?", c: "def calculate(data):\n    total = 0\n    for item in data:\n        if isinstance(item, list):\n            total += calculate(item)\n        else:\n            total += 1\n    return total", o: ["A. 4", "B. 3", "C. 15", "D. 5", "E. 10"], a: 3, e: "Hàm đếm tổng số phần tử không phải list (đệ quy đi sâu vào các list con). Danh sách [1, [2, [3, 4]], 5] có tổng cộng 5 phần tử cuối không phải list: 1, 2, 3, 4, 5. Kết quả: 5." },
+  { q: "Hàm kiểm tra chuỗi đối xứng này gặp một lỗi logic (Bug) khiến nó trả về None trong một số trường hợp. Lỗi nằm ở đâu?", c: "def is_palindrome(s):\n    if len(s) <= 1:\n        return True\n    if s[0] == s[-1]:\n        return is_palindrome(s[1:-1])", o: ["A. Phép so sánh s[0] == s[-1] chỉ đúng với kiểu số, không đúng với kiểu chuỗi.", "B. Trường hợp cơ sở (base case) sai, phải là len(s) == 0.", "C. Hàm không thể xử lý chuỗi có độ dài lẻ.", "D. Thiếu lệnh return False khi s[0] != s[-1].", "E. Lệnh gọi đệ quy is_palindrome(s[1:-1]) sai chỉ số cắt chuỗi."], a: 3, e: "Khi s[0] != s[-1], hàm không có nhánh else và không trả về gì (ngầm trả về None) — thiếu câu lệnh return False để xử lý trường hợp chuỗi không đối xứng." },
+  { q: "Xét đoạn mã sau:", c: "try:\n    x = int(\"abc\")\n    print(\"Converted\")\nexcept:\n    print(\"Error\")\nprint(\"Done\")", o: ["A. Error", "B. Done rồi Error", "C. Converted", "D. Error rồi Done", "E. Chương trình dừng ngay"], a: 3, e: "Chương trình in ra gì? int(\"abc\") gây lỗi ValueError, được except bắt và in \"Error\". Sau khối try/except, chương trình tiếp tục in \"Done\". Kết quả: Error rồi Done." },
+  { q: "Cho đoạn mã sau:", c: "def f():\n    try:\n        return 1 / 0\n    except ZeroDivisionError:\n        return 42\n    finally:\n        print(\"DONE\")\n\nprint(f())", o: ["A. DONE, rồi 42", "B. Báo lỗi và không in gì", "C. DONE, 42, rồi in lại DONE", "D. 42, rồi DONE"], a: 0, e: "Chương trình in ra gì? 1/0 gây lỗi ZeroDivisionError, except bắt và return 42. Trước khi hàm thực sự trả về, khối finally luôn được chạy nên in \"DONE\" trước, sau đó print(f()) in 42. Kết quả: DONE rồi 42." },
+  { q: "Cho đoạn mã sau:", c: "def divide(a, b):\n    try:\n        result = a / b\n        print(\"Result is\", result)\n    except ZeroDivisionError:\n        print(\"Error: Cannot divide by zero.\")\n    finally:\n        print(\"Cleaning up and completing\")\n\nres = divide(10, 0)\nprint(res)", o: ["A. Result is 0, Cleaning up and completing, 0", "B. Cleaning up and completing, None", "C. Error: Cannot divide by zero., Cleaning up and completing, None", "D. Báo lỗi ZeroDivisionError và chương trình dừng", "E. Error: Cannot divide by zero."], a: 2, e: "Kết quả in ra là gì? 10/0 gây lỗi ZeroDivisionError, in \"Error: Cannot divide by zero.\", sau đó finally in \"Cleaning up and completing\". Hàm divide() không có lệnh return nào nên trả về None, và print(res) in None." },
+  { q: "Kết quả của đoạn mã sau là gì?", c: "try:\n    x = int(\"abc\")\nexcept ValueError:\n    x = 0\nfinally:\n    x = x + 1\nprint(x)", o: ["A. Abc1", "B. 0", "C. None", "D. Lỗi (ValueError)", "E. 1"], a: 4, e: "int(\"abc\") gây ValueError, except gán x = 0. Khối finally luôn chạy, thực hiện x = x + 1 = 1. Kết quả in ra: 1." },
+  { q: "Giả sử file có nội dung đúng như sau:\nABC\nDEF\nNếu con trỏ file đang ở đầu file, phát biểu nào sau đây đúng?", c: "", o: ["A. f.read(1) trả về \"A\"", "B. f.readline() trả về \"AB\"", "C. f.readline() trả về \"DEF\"", "D. f.read(1) trả về \"ABC\"", "E. f.read(1) trả về số 1"], a: 0, e: "f.read(1) đọc đúng 1 ký tự từ vị trí con trỏ hiện tại. Vì con trỏ ở đầu file, ký tự đầu tiên là \"A\", nên f.read(1) trả về \"A\"." },
+  { q: "Chọn đáp án đúng khi thực hiện đoạn mã sau:", c: "fo = open(\"foo.txt\", \"rw+\")\nprint(\"Name of the file: \", fo.name)\n\nfor index in range(5):\n    line = fo.next()\n    print(\"Line No %d - %s\" % (index, line))\n\nfo.close()", o: ["A. Syntax Error", "B. Compilation Error", "C. Không có đáp án đúng", "D. Displays Output"], a: 2, e: "Đoạn mã có 2 lỗi: chế độ mở file \"rw+\" không hợp lệ trong Python (phải là \"r+\"), và file object trong Python 3 không có phương thức .next() (đó là cú pháp Python 2; Python 3 dùng next(fo) hoặc lặp trực tiếp). Vì đây là lỗi runtime (ValueError/AttributeError), không phải lỗi cú pháp hay lỗi biên dịch, nên \"Không có đáp án đúng\" là lựa chọn chính xác nhất." },
+  { q: "Con trỏ file (File Pointer) hoạt động thế nào?", c: "f = open('test.txt', 'w+')\nf.write('0123456789')\nf.seek(5)\nprint(f.read(3))\nf.close()", o: ["A. 12", "B. 456", "C. 567", "D. 789"], a: 2, e: "Sau khi viết chuỗi '0123456789', f.seek(5) di chuyển con trỏ tới vị trí chỉ số 5 (ký tự '5'). f.read(3) đọc 3 ký tự kể từ đó: '5', '6', '7' → kết quả \"567\"." }
+];
 
 // ==========================================
 // QUIZ ENGINE LOGIC VỚI TÍNH NĂNG MỚI
@@ -559,6 +630,7 @@ let quizData = [];
 let answered = 0, correct = 0, wrong = 0;
 let totalQuestions = 0;
 
+// Hệ thống tính giờ
 let startTime, timerInterval;
 
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -581,6 +653,7 @@ function shuffleArray(array) {
   }
 }
 
+// Bấm giờ làm bài
 function updateTimer() {
   let elapsed = Math.floor((Date.now() - startTime) / 1000);
   let m = String(Math.floor(elapsed / 60)).padStart(2, '0');
@@ -596,7 +669,7 @@ function startQuiz(mode) {
   let clone1 = rawQuizData1.map((q, i) => ({ ...q, originalId: 'Đề 1 - Q' + (i + 1) }));
   let clone2 = rawQuizData2.map((q, i) => ({ ...q, originalId: 'Đề 2 - Q' + (i + 1) }));
   let clone3 = rawQuizData3.map((q, i) => ({ ...q, originalId: 'Đề 3 - Q' + (i + 1) }));
-
+  let clone4 = rawQuizData4.map((q, i) => ({ ...q, originalId: 'Đề 4 - Q' + (i + 1) }));
   if (mode === 1) {
     document.getElementById('quiz-title').textContent = "🐍 Quiz: Đề 1 Cơ Bản";
     quizData = clone1;
@@ -615,6 +688,10 @@ function startQuiz(mode) {
     shuffleArray(combined);
     quizData = combined.slice(0, 50);
   }
+  else if (mode === 5) {
+    document.getElementById('quiz-title').textContent = "🏆 Quiz: Tư Duy Tính Toán Kì 1";
+    quizData = clone4;
+  }
 
   shuffleArray(quizData);
   totalQuestions = quizData.length;
@@ -623,6 +700,7 @@ function startQuiz(mode) {
   buildQuiz();
   updateProgress();
 
+  // Khởi động đồng hồ
   startTime = Date.now();
   timerInterval = setInterval(updateTimer, 1000);
 }
@@ -693,7 +771,7 @@ function updateProgress() {
 }
 
 function showResult() {
-  clearInterval(timerInterval); 
+  clearInterval(timerInterval); // Dừng đồng hồ
   
   const pct = Math.round(correct / totalQuestions * 100);
   const ring = document.getElementById('grade-ring');
@@ -708,6 +786,7 @@ function showResult() {
   document.getElementById('res-title').textContent = title;
   document.getElementById('res-sub').textContent = `Bạn đúng ${correct}/${totalQuestions} câu (${pct}%). ${sub}`;
   
+  // Hiển thị thời gian hoàn thành
   const timeTaken = document.getElementById('quiz-timer').textContent.replace('⏱️ ', '');
   document.getElementById('res-time').textContent = `⏱️ Thời gian hoàn thành: ${timeTaken}`;
 
@@ -737,12 +816,11 @@ function showResult() {
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
+  // Cấu hình từ dự án của bạn
   const firebaseConfig = {
     apiKey: "AIzaSyCgXX1v_RAgkPeL9OH8q8EhpxnVO0YmZBU",
     authDomain: "python-quiz-db.firebaseapp.com",
-    databaseURL: "https://python-quiz-db-default-rtdb.firebaseio.com", 
     projectId: "python-quiz-db",
     storageBucket: "python-quiz-db.firebasestorage.app",
     messagingSenderId: "51548747869",
@@ -752,54 +830,20 @@ function showResult() {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const db = getDatabase(app); 
 
-  let sessionListener = null;
-  let checkTimeout = null; 
-
+  // Theo dõi trạng thái: Đã đăng nhập hay chưa?
   onAuthStateChanged(auth, (user) => {
     const btnLogout = document.getElementById('btn-logout');
-    
     if (user) {
       document.getElementById('login-screen').style.display = 'none';
-      if(btnLogout) btnLogout.style.display = 'flex';
-
-      // Chờ 1.5s để hệ thống setup xong xuôi tránh lỗi chạy đua
-      checkTimeout = setTimeout(() => {
-        const localSessionId = localStorage.getItem('quiz_session_id');
-        const sessionRef = ref(db, 'user_sessions/' + user.uid);
-        
-        sessionListener = onValue(sessionRef, (snapshot) => {
-          const currentDbSession = snapshot.val();
-          
-          // NẾU PHÁT HIỆN DB ĐÃ BỊ THAY ĐỔI BỞI MÁY KHÁC HOẶC BỊ ĐẶT MÃ "FORCE_LOGOUT"
-          if (currentDbSession && localSessionId && currentDbSession !== localSessionId) {
-            
-            // Máy cũ phát hiện máy mới -> Thả lệnh "FORCE_LOGOUT" lên DB để kéo máy mới đăng xuất cùng
-            if (currentDbSession !== "FORCE_LOGOUT") {
-               set(sessionRef, "FORCE_LOGOUT");
-            }
-            
-            alert("⚠️ Phát hiện tài khoản đăng nhập trên thiết bị khác! Hệ thống sẽ khóa và đăng xuất trên TẤT CẢ các máy để bảo vệ tài khoản!");
-            window.logoutFirebase(); 
-          }
-        });
-      }, 1500);
-
+      if(btnLogout) btnLogout.style.display = 'flex'; // Hiện nút Đăng Xuất ở Menu
     } else {
       document.getElementById('login-screen').style.display = 'flex';
-      if(btnLogout) btnLogout.style.display = 'none';
-      
-      if (sessionListener) {
-        sessionListener(); 
-        sessionListener = null;
-      }
-      if (checkTimeout) {
-        clearTimeout(checkTimeout);
-      }
+      if(btnLogout) btnLogout.style.display = 'none'; // Giấu nút đi khi chưa Login
     }
   });
 
+  // Hàm login
   window.loginWithFirebase = () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -814,10 +858,6 @@ function showResult() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         errBox.style.display = 'none';
-        
-        const newSessionId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('quiz_session_id', newSessionId);
-        set(ref(db, 'user_sessions/' + userCredential.user.uid), newSessionId);
       })
       .catch((error) => {
         errBox.textContent = "Sai tài khoản hoặc mật khẩu!";
@@ -825,6 +865,7 @@ function showResult() {
       });
   };
 
+  // Ẩn / Hiện password
   window.togglePassword = () => {
     const pwdInput = document.getElementById('password');
     const toggleIcon = document.getElementById('toggle-pwd');
@@ -838,9 +879,9 @@ function showResult() {
     }
   };
 
+  // Hàm Đăng xuất
   window.logoutFirebase = () => {
     signOut(auth).then(() => {
-      localStorage.removeItem('quiz_session_id');
       location.reload(); 
     }).catch((error) => {
       console.log("Lỗi đăng xuất:", error);
