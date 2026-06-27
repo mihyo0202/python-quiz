@@ -670,6 +670,7 @@ function startQuiz(mode) {
   let clone2 = rawQuizData2.map((q, i) => ({ ...q, originalId: 'Đề 2 - Q' + (i + 1) }));
   let clone3 = rawQuizData3.map((q, i) => ({ ...q, originalId: 'Đề 3 - Q' + (i + 1) }));
   let clone4 = rawQuizData4.map((q, i) => ({ ...q, originalId: 'Đề 4 - Q' + (i + 1) }));
+  
   if (mode === 1) {
     document.getElementById('quiz-title').textContent = "🐍 Quiz: Đề 1 Cơ Bản";
     quizData = clone1;
@@ -684,7 +685,8 @@ function startQuiz(mode) {
   }
   else if (mode === 3) {
     document.getElementById('quiz-title').textContent = "🎲 Quiz: Random Tổng Hợp";
-    let combined = clone1.concat(clone2).concat(clone3);
+    // Đã bổ sung .concat(clone4) để random cả 4 đề
+    let combined = clone1.concat(clone2).concat(clone3).concat(clone4);
     shuffleArray(combined);
     quizData = combined.slice(0, 50);
   }
