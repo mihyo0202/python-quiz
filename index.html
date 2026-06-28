@@ -393,7 +393,6 @@ const rawQuizData4 = [
   { q: "Kết quả của random.randint(1, 5) có thể trả về các giá trị nào?", c: "", o: ["A. Sinh số nguyên ngẫu nhiên từ 1 đến 4.", "B. Sinh số nguyên ngẫu nhiên từ 1 đến 5 (bao gồm cả 1 và 5).", "C. Sinh số thực ngẫu nhiên từ 1 đến 5.", "D. Sinh 5 số nguyên ngẫu nhiên."], a: 1, e: "randint(a, b) tuân thủ quy tắc bao gồm (inclusive) lấy cả hai đầu biên ranh giới số chỉ định, sinh số trong đoạn [a, b]." },
   { q: "Trong thư viện datetime, đối tượng timedelta dùng để làm gì?", c: "", o: ["A. Lưu trữ một mốc thời gian cụ thể (ví dụ: ngày sinh).", "B. Lấy múi giờ hiện tại.", "C. Biểu diễn một khoảng thời gian (sự chênh lệch giữa hai thời điểm) để làm toán với ngày tháng.", "D. Format chuỗi thời gian thành JSON."], a: 2, e: "timedelta biểu thị một thực thể khoảng cách thời gian (ngày, giờ, phút) phục vụ các phép toán cộng trừ mốc lịch." }
 ];
-
 // ==========================================
 // QUIZ ENGINE LOGIC CẬP NHẬT TRỘN TOÀN DIỆN 5 ĐỀ
 // ==========================================
@@ -404,8 +403,6 @@ function startQuiz(mode) {
 
   let clone1 = rawQuizData1.map((q, i) => ({ ...q, originalId: 'Đề 1 - Q' + (i + 1) }));
   let clone2 = rawQuizData2.map((q, i) => ({ ...q, originalId: 'Đề 2 - Q' + (i + 1) }));
-  
-  // Khai báo mảng rỗng phòng thủ nếu trước đó chưa gán biến này trong lòng file HTML chính để trang không bị crash
   let clone3 = (typeof rawQuizData3 !== 'undefined') ? rawQuizData3.map((q, i) => ({ ...q, originalId: 'Đề 3 - Q' + (i + 1) })) : [];
   let clone4 = rawQuizData4.map((q, i) => ({ ...q, originalId: 'Đề 4 - Q' + (i + 1) }));
   let clone5 = rawQuizData5.map((q, i) => ({ ...q, originalId: 'Đề 5 - Q' + (i + 1) }));
@@ -424,7 +421,7 @@ function startQuiz(mode) {
   }
   else if (mode === 3) {
     document.getElementById('quiz-title').textContent = "🎲 Quiz: Random Tổng Hợp (50 Câu)";
-    // Thuật toán gộp mảng liên kết sạch sẽ tài nguyên của cả 5 bộ đề
+    // Đã nâng cấp nối mảng tích hợp toàn bộ dữ liệu của cả 5 bộ đề đang có
     let combined = clone1.concat(clone2).concat(clone3).concat(clone4).concat(clone5);
     shuffleArray(combined);
     quizData = combined.slice(0, 50);
@@ -503,6 +500,7 @@ function choose(qi, oi) {
   answered++;
   if (isCorrect) correct++; else wrong++;
   updateProgress();
+  if (answered === totalQuestions) showResult();
 }
 
 function updateProgress() {
